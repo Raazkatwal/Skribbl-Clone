@@ -1,0 +1,14 @@
+{
+    "plugins": ["@shufo/prettier-plugin-blade", "prettier-plugin-tailwindcss"],
+    "tailwindPreserveDuplicates": true,
+    "tailwindStylesheet": "./resources/css/app.css",
+    "overrides": [
+        {
+            "files": ["*.blade.php"],
+            "options": {
+                "parser": "blade",
+                "tabWidth": 4
+            }
+        }
+    ]
+}

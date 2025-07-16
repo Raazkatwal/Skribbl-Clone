@@ -1,6 +1,4 @@
-<x-slot name="title">Skribbl Clone</x-slot>
-
-<div class="flex items-center justify-center min-h-screen" style="background-image: url('images/bg.png')">
+<div class="flex items-center justify-center min-h-screen">
     <form wire:submit.prevent="join"
           class="bg-[#123595] p-8 rounded-xl shadow-lg w-full max-w-md space-y-6">
 
