@@ -9,7 +9,8 @@ class Whiteboard extends Component
     public string $username;
     public string $room;
 
-    public function mount(){
+    public function mount()
+    {
         $this->username = session('username');
         $this->room = session('room');
 

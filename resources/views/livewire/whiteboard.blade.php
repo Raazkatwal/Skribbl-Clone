@@ -37,10 +37,42 @@
                         </div>
                     </div>
                 @endfor
-
             </div>
-            <canvas class="rounded bg-white" id="board" width="750" height="540">
-            </canvas>
+
+            <div x-data="{
+                colors: [
+                    '#fff', '#c1c1c1', '#ef130b', '#ff7100', '#ffe400',
+                    '#00cc00', '#00ff91', '#00b2ff', '#231fd3', '#a300ba',
+                    '#df69a7', '#ffac8e', '#a0522d', '#000', '#505050',
+                    '#740b07', '#c23800', '#e8a200', '#004619', '#00785d',
+                    '#00569e', '#0e0865', '#550069', '#873554', '#cc774d', '#63300d'
+                ],
+                selectedColor: '#000',
+                init() {
+                    window.getSelectedColor = () => this.selectedColor;
+                },
+                selectColor(color) {
+                    console.log(color);
+                    this.selectedColor = color;
+                }
+            }">
+                <canvas class="rounded bg-white" id="board" width="750" height="540"></canvas>
+
+                <div class="flex w-full mt-4">
+                    <div class="grid grid-cols-[repeat(13,1fr)] gap-1">
+                        <template x-for="color in colors" :key="color">
+                            <div class="size-5 rounded cursor-pointer border-2"
+                                :style="{
+                                    backgroundColor: color,
+                                    borderColor: selectedColor === color ? '#323232' : 'transparent'
+                                }"
+                                @click="selectColor(color)"></div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="rounded bg-white relative p-3 size-full">
                 <input type="text" class="w-full relative top-full -translate-y-full border px-4 py-2 rounded"
                     placeholder="Enter your guess here">
@@ -74,7 +106,7 @@
 
             ctx.lineWidth = 3;
             ctx.lineCap = 'round';
-            ctx.strokeStyle = 'black';
+            ctx.strokeStyle = getSelectedColor();
 
             ctx.lineTo(x, y);
             ctx.stroke();
@@ -82,6 +114,10 @@
             ctx.moveTo(x, y);
 
             // TODO: Broadcast to others via Reverb
+        }
+
+        function setColor(color) {
+
         }
     </script>
 @endscript
