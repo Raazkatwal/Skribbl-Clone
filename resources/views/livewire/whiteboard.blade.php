@@ -41,34 +41,70 @@
 
             <div x-data="{
                 colors: [
-                    '#fff', '#c1c1c1', '#ef130b', '#ff7100', '#ffe400',
-                    '#00cc00', '#00ff91', '#00b2ff', '#231fd3', '#a300ba',
-                    '#df69a7', '#ffac8e', '#a0522d', '#000', '#505050',
-                    '#740b07', '#c23800', '#e8a200', '#004619', '#00785d',
-                    '#00569e', '#0e0865', '#550069', '#873554', '#cc774d', '#63300d'
+                    [255, 255, 255, 255],
+                    [193, 193, 193, 255],
+                    [239, 19, 11, 255],
+                    [255, 113, 0, 255],
+                    [255, 228, 0, 255],
+                    [0, 204, 0, 255],
+                    [0, 255, 145, 255],
+                    [0, 178, 255, 255],
+                    [35, 31, 211, 255],
+                    [163, 0, 186, 255],
+                    [223, 105, 167, 255],
+                    [255, 172, 142, 255],
+                    [160, 82, 45, 255],
+                    [0, 0, 0, 255],
+                    [80, 80, 80, 255],
+                    [116, 11, 7, 255],
+                    [194, 56, 0, 255],
+                    [232, 162, 0, 255],
+                    [0, 70, 25, 255],
+                    [0, 120, 93, 255],
+                    [0, 86, 158, 255],
+                    [14, 8, 101, 255],
+                    [85, 0, 105, 255],
+                    [135, 53, 84, 255],
+                    [204, 119, 77, 255],
+                    [99, 48, 13, 255],
                 ],
-                selectedColor: '#000',
+                selectedColor: [0, 0, 0, 255],
+                'mode': 'pen',
                 init() {
                     window.getSelectedColor = () => this.selectedColor;
+                    window.getMode = () => this.mode;
+                    window.setMode = (mode) => this.mode = mode;
+                    setupCanvas();
                 },
                 selectColor(color) {
-                    console.log(color);
                     this.selectedColor = color;
                 }
             }">
                 <canvas class="rounded bg-white" id="board" width="750" height="540"></canvas>
 
-                <div class="flex w-full mt-4">
+                <div class="flex w-full mt-4 justify-between">
                     <div class="grid grid-cols-[repeat(13,1fr)] gap-1">
-                        <template x-for="color in colors" :key="color">
+                        <template x-for="color in colors" :key="color.toString()">
                             <div class="size-5 rounded cursor-pointer border-2"
                                 :style="{
-                                    backgroundColor: color,
-                                    borderColor: selectedColor === color ? '#323232' : 'transparent'
+                                    backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3] / 255})`,
+                                    borderColor: JSON.stringify(selectedColor) === JSON.stringify(color) ? '#323232' :
+                                        'transparent'
                                 }"
-                                @click="selectColor(color)"></div>
+                                @click="selectColor(color)">
+                            </div>
                         </template>
                     </div>
+
+                    <img src="{{ asset('images/pen.gif') }}" alt="Pen"
+                        class="bg-white border-2 rounded cursor-pointer hover:border-black hover:opacity-85"
+                        :class="mode === 'pen' ? 'border-black opacity-100' : 'border-transparent opacity-70'"
+                        @click="setMode('pen')">
+
+                    <img src="{{ asset('images/fill.gif') }}" alt="Fill"
+                        class="bg-white border-2 rounded cursor-pointer hover:border-black hover:opacity-85"
+                        :class="mode === 'fill' ? 'border-black opacity-100' : 'border-transparent opacity-70'"
+                        @click="setMode('fill')">
                 </div>
             </div>
 
@@ -87,8 +123,18 @@
 
         let drawing = false;
 
-        canvas.addEventListener('mousedown', () => {
-            drawing = true;
+        canvas.addEventListener('mousedown', (e) => {
+
+            const x = e.offsetX;
+            const y = e.offsetY;
+
+            if (getMode() === 'pen') {
+                drawing = true;
+                draw(e);
+            } else if (getMode() === 'fill') {
+                const fillColor = getSelectedColor();
+                floodFill(x, y, fillColor, ctx, canvas);
+            }
         });
 
         canvas.addEventListener('mouseup', () => {
@@ -106,7 +152,7 @@
 
             ctx.lineWidth = 3;
             ctx.lineCap = 'round';
-            ctx.strokeStyle = getSelectedColor();
+            ctx.strokeStyle = rgbaToCss(getSelectedColor());
 
             ctx.lineTo(x, y);
             ctx.stroke();
@@ -116,8 +162,55 @@
             // TODO: Broadcast to others via Reverb
         }
 
-        function setColor(color) {
+        function rgbaToCss([r, g, b, a]) {
+            return `rgba(${r}, ${g}, ${b}, ${a / 255})`;
+        }
 
+        function fillCanvas(color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function floodFill(x, y, fillColor, ctx, canvas) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const width = canvas.width;
+
+            const startPos = (y * width + x) * 4;
+            const targetColor = data.slice(startPos, startPos + 4);
+            if (colorMatch(targetColor, fillColor)) return;
+
+            const stack = [
+                [x, y]
+            ];
+
+            while (stack.length) {
+                const [cx, cy] = stack.pop();
+                const pos = (cy * width + cx) * 4;
+                const currentColor = data.slice(pos, pos + 4);
+                if (!colorMatch(currentColor, targetColor)) continue;
+
+                data[pos] = fillColor[0];
+                data[pos + 1] = fillColor[1];
+                data[pos + 2] = fillColor[2];
+                data[pos + 3] = fillColor[3];
+
+                if (cx > 0) stack.push([cx - 1, cy]);
+                if (cx < width - 1) stack.push([cx + 1, cy]);
+                if (cy > 0) stack.push([cx, cy - 1]);
+                if (cy < canvas.height - 1) stack.push([cx, cy + 1]);
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function colorMatch(a, b, tolerance = 16) {
+            return (
+                Math.abs(a[0] - b[0]) <= tolerance &&
+                Math.abs(a[1] - b[1]) <= tolerance &&
+                Math.abs(a[2] - b[2]) <= tolerance &&
+                Math.abs(a[3] - b[3]) <= tolerance
+            );
         }
     </script>
 @endscript
