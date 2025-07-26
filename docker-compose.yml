@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: laravel-sqlite-app
+        container_name: laravel-sqlite
+        volumes:
+            - .:/var/www
+        ports:
+            - "8000:8000"
+        working_dir: /var/www
+        command: php artisan serve --host=0.0.0.0 --port=8000
