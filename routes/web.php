@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestController;
 use App\Livewire\JoinGame;
 use App\Livewire\Whiteboard;
 use Illuminate\Support\Facades\Route;
