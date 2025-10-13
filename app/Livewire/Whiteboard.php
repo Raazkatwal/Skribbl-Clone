@@ -23,7 +23,7 @@ class Whiteboard extends Component
     }
 
     #[On('whiteboard-draw')]
-    public function handleDraw($x, $y, $color, $mode, $userId)
+    public function handleDraw($type, $x, $y, $color, $mode, $userId)
     {
         // dd('draw event received in backend', $x, $y, $color, $mode);
         $data = (object) [
@@ -31,7 +31,8 @@ class Whiteboard extends Component
             'y' => $y,
             'color' => $color,
             'mode' => $mode,
-            'userId' => $userId
+            'userId' => $userId,
+            'type' => $type,
         ];
         event(new DrawEvent($data));
     }

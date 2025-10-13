@@ -117,24 +117,3 @@
     </div>
 </div>
 @vite(['resources/js/whiteboard/drawing.js', 'resources/js/whiteboard/network.js'])
-{{--
-@script
-    <script>
-        const userId = Math.random().toString(36).substring(2, 9);
-        window.Echo.channel('chat').listen('.whiteboard.draw', e => {
-            if(e.data.userId === userId) return;
-            drawRemoteStroke(e.data);
-        });
-
-        function drawRemoteStroke(data){
-            const ctx = document.getElementById('board').getContext('2d');
-            ctx.beginPath();
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = `rgba(${data.color[0]}, ${data.color[1]}, ${data.color[2]}, ${data.color[3] / 255})`;
-            ctx.lineTo(data.x, data.y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(data.x, data.y);
-        }
-    </script>
-@endscript --}}
