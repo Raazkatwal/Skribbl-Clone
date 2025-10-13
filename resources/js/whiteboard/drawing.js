@@ -13,6 +13,16 @@ canvas.addEventListener("mousedown", (e) => {
         drawPoint(x, y, "start");
     } else if (getMode() === "fill") {
         floodFill(x, y, getSelectedColor(), ctx, canvas);
+
+        Livewire.dispatch("whiteboard-draw", {
+            type: "fill",
+            x,
+            y,
+            color: getSelectedColor(),
+            mode: getMode(),
+            userId: window.userId,
+        });
+
     }
 });
 
@@ -47,5 +57,4 @@ function drawPoint(x, y, type) {
         mode: getMode(),
         userId: window.userId,
     });
-
 }
