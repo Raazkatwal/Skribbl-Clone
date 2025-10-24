@@ -30,7 +30,7 @@ class DrawEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('chat');
+        return new Channel('room.' . $this->data['room']);
     }
     public function broadcastAs(): string
     {
