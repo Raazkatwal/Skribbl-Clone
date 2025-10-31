@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->unsignedInteger('max_players')->default(8);
-            $table->unsignedInteger('rounds')->default(8);
-            $table->unsignedInteger('round_time')->default(80);
-            $table->enum('status', ['waiting', 'playing', 'finished'])->default('waiting');
+            $table->foreignId('room_id')->constrained()->cascadeOnDelete();
+            $table->uuid('user_id');
+            $table->string('name');
+            $table->unsignedInteger('score')->default(0);
+            $table->boolean('is_drawer')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('players');
     }
 };

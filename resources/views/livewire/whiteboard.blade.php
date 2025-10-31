@@ -13,18 +13,23 @@
                     </div>
                     <span class="font-bold">Round 1 of 8</span>
                 </div>
-                <span class="uppercase tracking-widest font-semibold text-white">Waiting</span>
+                <span class="uppercase tracking-widest font-semibold text-white">waiting</span>
                 <div class="size-12 bg-no-repeat bg-cover"
                     style="background-image: url('{{ asset('images/settings.gif') }}')"></div>
-
+                <button
+                        wire:click="removePlayer"
+                        class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                    >
+                    Leave Game
+                </button>
             </div>
             <div>
-                @for ($i = 0; $i < 6; $i++)
+                @foreach ($players as $player)
                     <div class="flex items-center justify-between bg-gray-200 odd:bg-gray-300 px-3 h-12">
-                        <div># {{ $i + 1 }} </div>
+                        <div># {{ $loop->iteration }} </div>
                         <div class="flex flex-col items-center gap-0.5">
                             <span class="text-blue-600 text-sm">
-                                {{ $username }} {{ $i === 2 ? '(You)' : '' }}
+                                {{ $player->name }} {{ $player->name === session('username') ? '(You)' : '' }}
                             </span>
                             <span class="text-xs">0 Points</span>
                         </div>
@@ -36,7 +41,7 @@
                             ">
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
 
             <div x-data="{

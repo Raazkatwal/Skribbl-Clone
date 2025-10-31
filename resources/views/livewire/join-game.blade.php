@@ -19,7 +19,7 @@
             <input
                 type="text"
                 wire:model.blur="room"
-                placeholder="Enter room name"
+                placeholder="Enter room code"
                 class="w-full px-4 py-2 border border-gray-300 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
                 {{ $errors->has('room') ? 'border-red-500' : 'border-gray-300' }}"
             >
