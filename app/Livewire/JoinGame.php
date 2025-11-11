@@ -5,53 +5,52 @@ namespace App\Livewire;
 use App\Events\PlayerJoined;
 use App\Models\Player;
 use App\Models\Room;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class JoinGame extends Component
 {
-    #[Validate('required|string|min:3|max:20')]
+    #[Validate('required|string|min:3|max:20|unique:users,name')]
     public string $username = '';
 
-    #[Validate('required|string|min:3|max:20')]
-    public string $room = '';
+    #[Validate('required|string|min:3|max:20', as: 'room code')]
+    public string $room_code = '';
 
-    public function mount()
-    {
-        if (session('room') && session('username')) {
-            redirect()->route('whiteboard');
-        }
-    }
-
-    public function join()
+    public function join(): ?RedirectResponse
     {
         $this->validate();
 
-        $room = Room::firstOrCreate(['code' => $this->room]);
+        DB::beginTransaction();
+        try {
+            $room = Room::firstOrCreate(['code' => $this->room_code]);
 
-        session([
-            'username' => $this->username,
-            'room_code' => $this->room,
-            'user_id' => Str::uuid()->toString(),
-        ]);
+            $user = User::firstOrCreate(['name' => $this->username]);
 
-        Player::firstOrCreate(
-            [
-                'room_id' => $room->id,
-                'user_id' => session('user_id'),
-            ],
-            [
-                'name' => $this->username
-            ]
-        );
+            Player::create(['room_id' => $room->id, 'user_id' => $user->id]);
 
-        event(new PlayerJoined(room: $this->room));
+            Auth::login($user);
 
-        return redirect()->route('whiteboard', ['room' => $room->code]);
+            event(new PlayerJoined(room: $this->room_code));
+
+            DB::commit();
+
+            return $this->redirectRoute('whiteboard', ['room' => $room->code]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th->getMessage());
+
+            $this->addError('room', 'Failed to join room. Please try again.');
+
+            return null;
+        }
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.join-game');
     }

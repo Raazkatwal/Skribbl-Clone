@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('max_players')->default(8);
             $table->unsignedInteger('rounds')->default(8);
             $table->unsignedInteger('round_time')->default(80);
-            $table->enum('status', ['waiting', 'playing', 'finished'])->default('waiting');
+            $table->string('status')->default('waiting');
             $table->timestamps();
         });
     }

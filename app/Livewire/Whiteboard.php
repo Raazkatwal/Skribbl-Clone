@@ -6,31 +6,23 @@ use App\Events\DrawEvent;
 use App\Events\PlayerLeft;
 use App\Models\Player;
 use App\Models\Room;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Whiteboard extends Component
 {
-    public string $username;
-
-    public string $room;
-
-    public string $userId;
+    public Room $room;
 
     public $players;
 
     public function mount()
     {
-        $this->room = request()->query('room');
-        $this->username = session('username', 'Guest');
-        $this->userId = session('user_id', Str::uuid()->toString());
-        $this->players = Player::whereHas('room', function ($query) {
-            $query->where('code', $this->room);
+        $this->players = Player::with('user')->whereHas('room', function ($query) {
+            $query->where('code', $this->room->code);
         })->get();
-        // $this->room = session('room');
 
-        if (! $this->username || ! $this->room) {
+        if (! Auth::check() || ! $this->room) {
             redirect()->route('join-game');
         }
     }
@@ -45,7 +37,7 @@ class Whiteboard extends Component
             'mode' => $mode,
             'userId' => $userId,
             'type' => $type,
-            'room' => $this->room,
+            'room' => $this->room->code,
         ];
         event(new DrawEvent($data));
     }
@@ -54,26 +46,28 @@ class Whiteboard extends Component
     #[On('player-left')]
     public function refreshPlayers()
     {
-            $this->players = Player::whereHas('room', function ($query) {
-            $query->where('code', $this->room);
+        $this->players = Player::with('user')->whereHas('room', function ($query) {
+            $query->where('code', $this->room->code);
         })->get();
     }
 
     public function removePlayer()
     {
-        $roomCode = session('room_code');
-        $username = session('username');
-        if ($roomCode && $username) {
-            $room = Room::where('code', $roomCode)->first();
-            if ($room) {
-                Player::where('room_id', $room->id)
-                    ->where('name', $username)
-                    ->delete();
+        $user = Auth::user();
 
-                event(new PlayerLeft($roomCode, $username));
-                $this->redirectRoute('join-game');
-            }
+        Player::where('room_id', $this->room->id)
+            ->where('user_id', $user->id)
+            ->delete();
+
+        Auth::logout();
+
+        if ($user->is_guest == true) {
+            $user->delete();
         }
+
+        event(new PlayerLeft($this->room->code));
+
+        $this->redirectRoute('join-game');
     }
 
     public function render()

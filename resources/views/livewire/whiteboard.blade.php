@@ -24,12 +24,12 @@
                 </button>
             </div>
             <div>
-                @foreach ($players as $player)
+                @forelse ($players as $player)
                     <div class="flex items-center justify-between bg-gray-200 odd:bg-gray-300 px-3 h-12">
                         <div># {{ $loop->iteration }} </div>
                         <div class="flex flex-col items-center gap-0.5">
                             <span class="text-blue-600 text-sm">
-                                {{ $player->name }} {{ $player->name === session('username') ? '(You)' : '' }}
+                                {{ $player->user->name }} {{ $player->user_id === auth()->user()->id ? '(You)' : '' }}
                             </span>
                             <span class="text-xs">0 Points</span>
                         </div>
@@ -41,7 +41,24 @@
                             ">
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="flex items-center justify-between bg-gray-200 odd:bg-gray-300 px-3 h-12">
+                        <div># 999</div>
+                        <div class="flex flex-col items-center gap-0.5">
+                            <span class="text-blue-600 text-sm">
+                                No Players Found
+                            </span>
+                            <span class="text-xs">0 Points</span>
+                        </div>
+                        <div class="size-12 bg-no-repeat bg-cover"
+                            style="
+                                background-image: url('{{ asset('images/color_atlas.gif') }}');
+                                background-position: 0px -2px;
+                                background-size: 480px 480px;
+                            ">
+                        </div>
+                    </div>
+                @endforelse
             </div>
 
             <div x-data="{
@@ -94,3 +111,10 @@
         </div>
     </div>
 </div>
+@script
+<script>
+    window.userId = @js(auth()->user()->id);
+    window.roomCode = @js($room->code);
+</script>
+@endscript
+@vite('resources/js/whiteboard/network.js')

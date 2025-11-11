@@ -18,12 +18,12 @@
         <div>
             <input
                 type="text"
-                wire:model.blur="room"
+                wire:model.blur="room_code"
                 placeholder="Enter room code"
                 class="w-full px-4 py-2 border border-gray-300 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
-                {{ $errors->has('room') ? 'border-red-500' : 'border-gray-300' }}"
+                {{ $errors->has('room_code') ? 'border-red-500' : 'border-gray-300' }}"
             >
-            @error('room') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+            @error('room_code') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
         </div>
 
         <button
