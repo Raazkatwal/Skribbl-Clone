@@ -1,8 +1,11 @@
-<div class="flex items-center justify-center min-h-screen">
-    <form wire:submit.prevent="join"
-          class="bg-[#123595] p-8 rounded-xl shadow-lg w-full max-w-md space-y-6">
-
-        <h1 class="text-2xl font-bold text-center text-white">Join or Create a Game</h1>
+<div class="flex min-h-screen items-center justify-center">
+    <form
+        wire:submit.prevent="join"
+        class="w-full max-w-md space-y-6 rounded-xl bg-[#123595] p-8 shadow-lg"
+    >
+        <h1 class="text-center text-2xl font-bold text-white">
+            Join or Create a Game
+        </h1>
 
         <div>
             <input
@@ -11,8 +14,10 @@
                 placeholder="Enter your name"
                 class="w-full px-4 py-2 border text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
                 {{ $errors->has('username') ? 'border-red-500' : 'border-gray-300' }}"
-            >
-            @error('username') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+            />
+            @error('username')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <div>
@@ -22,13 +27,15 @@
                 placeholder="Enter room code"
                 class="w-full px-4 py-2 border border-gray-300 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
                 {{ $errors->has('room_code') ? 'border-red-500' : 'border-gray-300' }}"
-            >
-            @error('room_code') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+            />
+            @error('room_code')
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <button
             type="submit"
-            class="w-full bg-[#53e237] cursor-pointer text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200 font-semibold"
+            class="w-full cursor-pointer rounded-lg bg-[#53e237] py-2 font-semibold text-white transition duration-200 hover:bg-indigo-700"
         >
             Join Game
         </button>

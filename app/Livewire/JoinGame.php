@@ -21,6 +21,17 @@ class JoinGame extends Component
     #[Validate('required|string|min:3|max:20', as: 'room code')]
     public string $room_code = '';
 
+    public function mount()
+    {
+        $player = Auth::user()?->player;
+
+        if ($player && $player->room) {
+            $roomCode = $player->room->code;
+            event(new PlayerJoined(room: $roomCode));
+            return $this->redirectRoute('whiteboard', ['room' => $roomCode]);
+        }
+    }
+
     public function join(): ?RedirectResponse
     {
         $this->validate();
@@ -35,7 +46,13 @@ class JoinGame extends Component
 
             Auth::login($user);
 
-            event(new PlayerJoined(room: $this->room_code));
+            if (Player::where('room_id', $room->id)->count() === 1) {
+                session(['is_host' => true]);
+            } else {
+                session(['is_host' => false]);
+            }
+
+            event(new PlayerJoined($this->room_code));
 
             DB::commit();
 

@@ -21,6 +21,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Room $room
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player query()
@@ -31,8 +32,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereScore($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Player whereUserId($value)
+ * @mixin \Eloquent
  */
-	class Player extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperPlayer {}
 }
 
 namespace App\Models{
@@ -56,20 +59,22 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereRounds($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class Room extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperRoom {}
 }
 
 namespace App\Models{
 /**
  * @property int $id
- * @property int $room_id
  * @property string $name
  * @property int $is_guest
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \App\Models\Player|null $player
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -78,9 +83,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsGuest($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRoomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class User extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperUser {}
 }
 

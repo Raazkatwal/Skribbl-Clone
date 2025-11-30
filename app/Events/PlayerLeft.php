@@ -15,7 +15,7 @@ class PlayerLeft implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public string $room) {}
+    public function __construct(public string $roomCode) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -24,7 +24,7 @@ class PlayerLeft implements ShouldBroadcastNow
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('room.'.$this->room);
+        return new Channel('room.'.$this->roomCode);
     }
 
     public function broadcastAs(): string

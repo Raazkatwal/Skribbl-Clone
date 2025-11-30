@@ -22,7 +22,6 @@ canvas.addEventListener("mousedown", (e) => {
             mode: getMode(),
             userId: window.userId,
         });
-
     }
 });
 
@@ -35,6 +34,13 @@ canvas.addEventListener("mouseup", () => {
 canvas.addEventListener("mousemove", (e) => {
     if (!drawing || getMode() !== "pen") return;
     drawPoint(e.offsetX, e.offsetY, "move");
+});
+
+canvas.addEventListener("mouseleave", () => {
+    if (drawing) {
+        drawing = false;
+        drawPoint(null, null, "end");
+    }
 });
 
 function drawPoint(x, y, type) {

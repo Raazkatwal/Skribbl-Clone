@@ -2,9 +2,9 @@ import { floodFill, rgbaToCss } from "./helpers";
 
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
-const userPaths = {}; // store per-user drawing state
+const userPaths = {};
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     window.Echo.channel(`room.${window.roomCode}`)
         .listen(".whiteboard.draw", (e) => {
             const data = e.data;
@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .listen(".player.left", () => {
             Livewire.dispatch("player-left");
+        })
+        .listen(".game.started", () => {
+            Livewire.dispatch("refresh");
         });
 });
 
