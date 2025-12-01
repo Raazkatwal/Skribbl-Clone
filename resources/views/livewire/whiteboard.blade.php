@@ -4,13 +4,17 @@
         <div class="grid size-full grid-cols-[20%_60%_20%] grid-rows-[10%_90%] gap-1.5">
             <div
                 class="col-span-3 flex items-center justify-between rounded bg-gradient-to-r from-blue-500 to-purple-500 px-2 shadow-md">
-                <div class="flex items-center gap-4">
-                    <div class="grid size-12 place-items-center bg-cover bg-no-repeat font-extrabold"
+                <div class="flex items-center gap-4"
+                x-data="{remaining: 80}"
+                             x-init="setInterval(() => { if (remaining > 0) remaining-- }, 1000)"
+                           >
+                     <div class="grid size-12 place-items-center bg-cover bg-no-repeat font-extrabold"
                         style="background-image: url('{{ asset('images/clock.gif') }}');
-                        background-position: 0 -3px;
-                        ">
-                        10
+                        background-position: 0 -3px;"
+                        x-text="remaining"
+                    >
                     </div>
+
                     <span class="font-bold">Round 1 of 8</span>
                 </div>
                 <span class="font-semibold tracking-widest text-white uppercase">waiting</span>

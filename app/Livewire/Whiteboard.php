@@ -92,28 +92,58 @@ class Whiteboard extends Component
 
     public function startGame(): void
     {
-        if (! session('is_host')) {
+        if (! session('is_host') || $this->room->status !== RoomStatus::WAITING) {
             return;
         }
+
+        if ($this->players->count() < 2) {
+            // $this->dispatch('toast', message: "Need at least 2 players");
+            $this->js('alert("Need at least 2 players")');
+
+            return;
+        }
+
+        $drawer = $this->players->random();
+
+        Player::where('room_id', $this->room->id)->update(['is_drawer' => false]);
+        $drawer->is_drawer = true;
+        $drawer->save();
+
+        $word = $this->pickRandomWord();
+
+        $endsAt = now()->addSeconds($this->drawtime);
 
         $this->room->update([
             'status' => RoomStatus::PLAYING,
             'max_players' => $this->max_players,
             'rounds' => $this->rounds,
             'round_time' => $this->drawtime,
+            'current_drawer_id' => $drawer->id,
+            'current_word' => $word,
+            'round_ends_at' => $endsAt,
         ]);
 
-        event(new GameStarted($this->room->code));
+        event(new GameStarted(
+            roomCode: $this->room->code,
+        ));
     }
 
     #[On('refresh')]
     public function refresh(): void
     {
-        $this->dispatch('$refresh');
+        // $this->dispatch('$refresh');
+        $this->room->refresh();
     }
 
     public function render(): View
     {
         return view('livewire.whiteboard');
+    }
+
+    private function pickRandomWord(): string
+    {
+        $words = config('words');
+
+        return $words[array_rand($words)];
     }
 }

@@ -27,7 +27,8 @@ class JoinGame extends Component
 
         if ($player && $player->room) {
             $roomCode = $player->room->code;
-            event(new PlayerJoined(room: $roomCode));
+            event(new PlayerJoined(roomCode: $roomCode));
+
             return $this->redirectRoute('whiteboard', ['room' => $roomCode]);
         }
     }
@@ -59,7 +60,6 @@ class JoinGame extends Component
             return $this->redirectRoute('whiteboard', ['room' => $room->code]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
 
             $this->addError('room', 'Failed to join room. Please try again.');
 

@@ -18,6 +18,10 @@ return new class extends Migration
             $table->unsignedInteger('rounds')->default(8);
             $table->unsignedInteger('round_time')->default(80);
             $table->string('status')->default('waiting');
+            $table->unsignedInteger('current_round')->default(1);
+            $table->foreignId('current_drawer_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('current_word')->nullable();
+            $table->timestamp('round_ends_at')->nullable();
             $table->timestamps();
         });
     }
