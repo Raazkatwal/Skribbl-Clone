@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Livewire.dispatch("player-left");
         })
         .listen(".game.started", () => {
-            Livewire.dispatch("refresh");
+            Livewire.dispatch("game-started");
         });
 });
 

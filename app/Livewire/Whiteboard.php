@@ -128,11 +128,12 @@ class Whiteboard extends Component
         ));
     }
 
-    #[On('refresh')]
-    public function refresh(): void
+    #[On('game-started')]
+    public function handleGameStarted(): void
     {
         // $this->dispatch('$refresh');
         $this->room->refresh();
+        $this->dispatch('countdown-start', seconds: $this->room->round_time);
     }
 
     public function render(): View

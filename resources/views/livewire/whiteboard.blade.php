@@ -5,9 +5,22 @@
             <div
                 class="col-span-3 flex items-center justify-between rounded bg-gradient-to-r from-blue-500 to-purple-500 px-2 shadow-md">
                 <div class="flex items-center gap-4"
-                x-data="{remaining: 80}"
-                             x-init="setInterval(() => { if (remaining > 0) remaining-- }, 1000)"
-                           >
+                    x-data="{ remaining: 0, interval: null }"
+                    x-init="
+                        $wire.on('countdown-start', e => {
+                            remaining = e.seconds;
+
+                            if (interval) clearInterval(interval); // stop any existing interval
+
+                            interval = setInterval(() => {
+                                if (remaining > 0) {
+                                    remaining--;
+                                } else {
+                                    clearInterval(interval);
+                                }
+                            }, 1000);
+                        });
+                    ">
                      <div class="grid size-12 place-items-center bg-cover bg-no-repeat font-extrabold"
                         style="background-image: url('{{ asset('images/clock.gif') }}');
                         background-position: 0 -3px;"
