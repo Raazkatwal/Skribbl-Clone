@@ -8,6 +8,7 @@ canvas.addEventListener("mousedown", (e) => {
     const x = e.offsetX;
     const y = e.offsetY;
 
+    if (!window.canDraw) return;
     if (getMode() === "pen") {
         drawing = true;
         drawPoint(x, y, "start");

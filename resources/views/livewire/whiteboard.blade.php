@@ -160,6 +160,12 @@
                     @endif
                 @endif
                     <canvas class="rounded bg-white" id="board" width="750" height="540"
+                    x-init="
+                    window.canDraw = $wire.isDrawer;
+                    $wire.$watch('isDrawer', value => {
+                        window.canDraw = value;
+                    });
+                    "
                     <!-- @contextmenu.prevent -->
                 ></canvas>
 

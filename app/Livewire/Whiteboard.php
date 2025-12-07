@@ -25,6 +25,8 @@ class Whiteboard extends Component
 
     public int $rounds = 3;
 
+    public bool $isDrawer = false;
+
     public function mount(): void
     {
         $this->players = Player::with('user')->whereHas('room', function ($query) {
@@ -34,6 +36,8 @@ class Whiteboard extends Component
         if (! Auth::check() || ! $this->room) {
             redirect()->route('join-game');
         }
+
+        $this->isDrawer = $this->players->firstWhere('user_id', auth()->id())?->is_drawer;
     }
 
     /**
@@ -47,6 +51,14 @@ class Whiteboard extends Component
     #[On('whiteboard-draw')]
     public function handleDraw($type, $x, $y, $color, $mode, $userId): void
     {
+        $player = Player::where('room_id', $this->room->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (! $player || ! $player->is_drawer) {
+            return;
+        }
+
         $data = [
             'x' => $x,
             'y' => $y,
@@ -103,11 +115,7 @@ class Whiteboard extends Component
             return;
         }
 
-        $drawer = $this->players->random();
-
-        Player::where('room_id', $this->room->id)->update(['is_drawer' => false]);
-        $drawer->is_drawer = true;
-        $drawer->save();
+        $drawer = $this->pickRandomDrawer();
 
         $word = $this->pickRandomWord();
 
@@ -135,6 +143,18 @@ class Whiteboard extends Component
         $this->room->refresh();
         $this->dispatch('countdown-start', seconds: $this->room->round_time);
     }
+    /**
+     * @return void
+     */
+    #[On('drawer-changed')]
+    public function updateDrawer()
+    {
+        $player = Player::where('room_id', $this->room->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        $this->isDrawer = $player?->is_drawer ?? false;
+    }
 
     public function render(): View
     {
@@ -146,5 +166,16 @@ class Whiteboard extends Component
         $words = config('words');
 
         return $words[array_rand($words)];
+    }
+
+    private function pickRandomDrawer()
+    {
+        $drawer = $this->players->random();
+
+        Player::where('room_id', $this->room->id)->update(['is_drawer' => false]);
+        $drawer->is_drawer = true;
+        $drawer->save();
+
+        return $drawer;
     }
 }
