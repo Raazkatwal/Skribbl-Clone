@@ -37,7 +37,7 @@ class Whiteboard extends Component
             redirect()->route('join-game');
         }
 
-        $this->isDrawer = $this->players->firstWhere('user_id', auth()->id())?->is_drawer;
+        $this->isDrawer = $this->players->firstWhere('user_id', Auth::id())?->is_drawer;
     }
 
     /**
@@ -51,11 +51,14 @@ class Whiteboard extends Component
     #[On('whiteboard-draw')]
     public function handleDraw($type, $x, $y, $color, $mode, $userId): void
     {
-        $player = Player::where('room_id', $this->room->id)
-            ->where('user_id', auth()->id())
-            ->first();
-
-        if (! $player || ! $player->is_drawer) {
+        // $player = Player::where('room_id', $this->room->id)
+        //     ->where('user_id', Auth::id())
+        //     ->first();
+        //
+        // if (! $player || ! $player->is_drawer) {
+        //     return;
+        // }
+        if (! $this->isDrawer) {
             return;
         }
 
@@ -141,6 +144,7 @@ class Whiteboard extends Component
     {
         // $this->dispatch('$refresh');
         $this->room->refresh();
+        $this->pickRandomDrawer();
         $this->dispatch('countdown-start', seconds: $this->room->round_time);
     }
     /**
@@ -150,7 +154,7 @@ class Whiteboard extends Component
     public function updateDrawer()
     {
         $player = Player::where('room_id', $this->room->id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->first();
 
         $this->isDrawer = $player?->is_drawer ?? false;
@@ -170,11 +174,15 @@ class Whiteboard extends Component
 
     private function pickRandomDrawer()
     {
-        $drawer = $this->players->random();
-
         Player::where('room_id', $this->room->id)->update(['is_drawer' => false]);
+        $drawer = $this->players->random();
         $drawer->is_drawer = true;
         $drawer->save();
+
+        if (Auth::id() === $drawer->user_id) {
+            $this->isDrawer = true;
+            $this->room->current_drawer_id = $drawer->user_id;
+        }
 
         return $drawer;
     }

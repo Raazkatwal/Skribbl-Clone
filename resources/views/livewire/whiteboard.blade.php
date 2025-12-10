@@ -161,7 +161,6 @@
                 @endif
                     <canvas class="rounded bg-white" id="board" width="750" height="540"
                     x-init="
-                    window.canDraw = $wire.isDrawer;
                     $wire.$watch('isDrawer', value => {
                         window.canDraw = value;
                     });
@@ -205,6 +204,7 @@
     <script>
         window.userId = @js(auth()->user()->id);
         window.roomCode = @js($room->code);
+        window.canDraw = $wire.isDrawer;
 
         window.addEventListener("pagehide", e => {
             if (!e.persisted) {
@@ -212,4 +212,4 @@
             }
         });
     </script>
-@endscript @vite('resources/js/whiteboard/network.js')
+@endscript
