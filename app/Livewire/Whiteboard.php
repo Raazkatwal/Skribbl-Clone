@@ -120,8 +120,6 @@ class Whiteboard extends Component
 
         $drawer = $this->pickRandomDrawer();
 
-        $word = $this->pickRandomWord();
-
         $endsAt = now()->addSeconds($this->drawtime);
 
         $this->room->update([
@@ -130,8 +128,6 @@ class Whiteboard extends Component
             'rounds' => $this->rounds,
             'round_time' => $this->drawtime,
             'current_drawer_id' => $drawer->id,
-            'current_word' => $word,
-            'round_ends_at' => $endsAt,
         ]);
 
         event(new GameStarted(
@@ -144,9 +140,17 @@ class Whiteboard extends Component
     {
         // $this->dispatch('$refresh');
         $this->room->refresh();
-        $this->pickRandomDrawer();
-        $this->dispatch('countdown-start', seconds: $this->room->round_time);
+
+        if (! $this->isDrawer) {
+            return;
+        }
+
+        $words = $this->pickRandomWords();
+
+        // $this->dispatch('countdown-start', seconds: $this->room->round_time);
+        $this->dispatch('show-word-picker', words: $words);
     }
+
     /**
      * @return void
      */
@@ -160,16 +164,34 @@ class Whiteboard extends Component
         $this->isDrawer = $player?->is_drawer ?? false;
     }
 
+    public function selectWord(string $word): void
+    {
+        if (! $this->isDrawer) {
+            return;
+        }
+
+        $this->room->update([
+            'current_word' => $word,
+            'round_ends_at' => now()->addSeconds($this->room->round_time),
+        ]);
+
+        // start timer for everyone
+        $this->dispatch('countdown-start', seconds: $this->room->round_time);
+
+        // event(new WordSelected($this->room->code));
+    }
+
     public function render(): View
     {
         return view('livewire.whiteboard');
     }
 
-    private function pickRandomWord(): string
+    private function pickRandomWords(): array
     {
-        $words = config('words');
+        $words = collect(config('words'))
+            ->random(3)->toArray();
 
-        return $words[array_rand($words)];
+        return $words;
     }
 
     private function pickRandomDrawer()

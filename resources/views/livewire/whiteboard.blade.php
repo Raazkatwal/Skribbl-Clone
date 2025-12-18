@@ -4,28 +4,23 @@
         <div class="grid size-full grid-cols-[20%_60%_20%] grid-rows-[10%_90%] gap-1.5">
             <div
                 class="col-span-3 flex items-center justify-between rounded bg-gradient-to-r from-blue-500 to-purple-500 px-2 shadow-md">
-                <div class="flex items-center gap-4"
-                    x-data="{ remaining: 0, interval: null }"
-                    x-init="
-                        $wire.on('countdown-start', e => {
-                            remaining = e.seconds;
+                <div class="flex items-center gap-4" x-data="{ remaining: 0, interval: null }" x-init="$wire.on('countdown-start', e => {
+                    remaining = e.seconds;
 
-                            if (interval) clearInterval(interval); // stop any existing interval
+                    if (interval) clearInterval(interval); // stop any existing interval
 
-                            interval = setInterval(() => {
-                                if (remaining > 0) {
-                                    remaining--;
-                                } else {
-                                    clearInterval(interval);
-                                }
-                            }, 1000);
-                        });
-                    ">
-                     <div class="grid size-12 place-items-center bg-cover bg-no-repeat font-extrabold"
+                    interval = setInterval(() => {
+                        if (remaining > 0) {
+                            remaining--;
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 1000);
+                });">
+                    <div class="grid size-12 place-items-center bg-cover bg-no-repeat font-extrabold"
                         style="background-image: url('{{ asset('images/clock.gif') }}');
                         background-position: 0 -3px;"
-                        x-text="remaining"
-                    >
+                        x-text="remaining">
                     </div>
 
                     <span class="font-bold">Round 1 of 8</span>
@@ -159,14 +154,45 @@
                         </form>
                     @endif
                 @endif
-                    <canvas class="rounded bg-white" id="board" width="750" height="540"
-                    x-init="
-                    $wire.$watch('isDrawer', value => {
-                        window.canDraw = value;
-                    });
-                    "
+                <div x-data="{
+                    open: false,
+                    words: [],
+                    choose(word) {
+                        this.open = false;
+                        $wire.call('selectWord', word);
+                    }
+                }" x-init="console.log('wire on initialized');$wire.on('show-word-picker', e => {
+                    words = e.words;
+                    open = true;
+                });">
+                    <!-- Overlay -->
+                    <div x-show="open" x-transition.opacity
+                        class="absolute inset-0 grid place-items-center bg-black/60">
+                        <div class="w-96 rounded-lg bg-white p-6 shadow-xl">
+                            <h2 class="mb-4 text-center text-lg font-bold">
+                                Choose a word
+                            </h2>
+
+                            <div class="grid grid-cols-3 gap-3">
+                                <template x-for="word in words" :key="word">
+                                    <button
+                                        class="rounded border border-blue-500 px-4 py-2 font-semibold cursor-pointer text-black hover:bg-blue-600 hover:text-white"
+                                        @click="choose(word)" x-text="word"></button>
+                                </template>
+                            </div>
+
+                            <p class="mt-4 text-center text-sm text-gray-500">
+                                You are the drawer 🎨
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <canvas class="rounded bg-white" id="board" width="750" height="540" x-init="$wire.$watch('isDrawer', value => {
+                    window.canDraw = value;
+                });"
                     <!-- @contextmenu.prevent -->
-                ></canvas>
+                    ></canvas>
 
                 <div class="mt-4 flex w-full justify-between">
                     <div class="grid grid-cols-[repeat(13,1fr)] gap-1">
