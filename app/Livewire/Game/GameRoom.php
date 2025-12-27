@@ -25,6 +25,8 @@ class GameRoom extends Component
 
     public int $rounds = 3;
 
+    public bool $isHost = false;
+
     public bool $isDrawer = false;
 
     public function mount(): void
@@ -37,7 +39,8 @@ class GameRoom extends Component
             redirect()->route('join-game');
         }
 
-        $this->isDrawer = $this->players->firstWhere('user_id', Auth::id())?->is_drawer;
+        $this->isDrawer = $this->players->firstWhere('user_id', Auth::id())->is_drawer;
+        $this->isHost = (bool) session('is_host');
     }
 
     /**
