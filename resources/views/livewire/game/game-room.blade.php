@@ -22,3 +22,16 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        window.userId = @js(auth()->user()->id);
+        window.roomCode = @js($room->code);
+        window.canDraw = $wire.isDrawer;
+
+        window.addEventListener("pagehide", e => {
+            if (!e.persisted) {
+                $wire.call('removePlayer');
+            }
+        });
+    </script>
+@endscript

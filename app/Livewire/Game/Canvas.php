@@ -14,6 +14,12 @@ class Canvas extends Component
 
     public bool $isDrawer;
 
+    public bool $isHost = false;
+
+    public int $maxPlayers;
+    public int $rounds;
+    public int $drawtime;
+
     #[On('drawer-changed')]
     public function updateDrawer(): void
     {

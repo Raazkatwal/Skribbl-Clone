@@ -5,8 +5,7 @@
         this.open = false;
         $wire.call('selectWord', word);
     }
-}" x-init="console.log('wire on initialized');
-$wire.on('show-word-picker', e => {
+}" x-init="$wire.on('show-word-picker', e => {
     words = e.words;
     open = true;
 });">
@@ -30,3 +29,4 @@ $wire.on('show-word-picker', e => {
             </p>
         </div>
     </div>
+</div>
