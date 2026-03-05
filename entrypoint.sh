@@ -36,7 +36,7 @@ echo "Linking storage..."
 php artisan storage:link || true
 
 echo "Starting Reverb..."
-php artisan reverb:start &
+php artisan reverb:start --host 0.0.0.0 --port 8060 &
 
 echo "Starting PHP-FPM..."
 exec php-fpm
