@@ -33,21 +33,19 @@ class StartOverlay extends Component
 
     public function startGame()
     {
-        if (! $this->isHost) {
-            return;
-        }
-
-        $this->dispatch('start-game', [
+        $this->dispatch('request-start-game', [
             'max_players' => $this->maxPlayers,
             'rounds' => $this->rounds,
             'drawtime' => $this->drawtime,
-        ]);
+        ])->to(GameRoom::class);
     }
 
     public function render()
     {
         if ($this->room->status !== RoomStatus::WAITING) {
-            return '';
+            return <<<'HTML'
+            <div style="display: none;"></div>
+            HTML;
         }
 
         return view('livewire.game.start-overlay');

@@ -15,7 +15,7 @@ use Livewire\Component;
 
 class JoinGame extends Component
 {
-    #[Validate('required|string|min:3|max:20|unique:users,name')]
+    #[Validate('required|string|min:3|max:20')]
     public string $username = '';
 
     #[Validate('required|string|min:3|max:20', as: 'room code')]
@@ -43,7 +43,11 @@ class JoinGame extends Component
 
             $user = User::firstOrCreate(['name' => $this->username]);
 
-            Player::create(['room_id' => $room->id, 'user_id' => $user->id]);
+            // Ensure player record exists for this room
+            Player::firstOrCreate([
+                'room_id' => $room->id,
+                'user_id' => $user->id
+            ]);
 
             Auth::login($user);
 
@@ -61,7 +65,7 @@ class JoinGame extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            $this->addError('room', 'Failed to join room. Please try again.');
+            $this->addError('room_code', 'Failed to join room: ' . $th->getMessage());
 
             return null;
         }

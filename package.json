@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "tw:sort": "prettier --parser html --plugin prettier-plugin-tailwindcss --write resources/views"
+        "format": "prettier --parser html --plugin prettier-plugin-tailwindcss --write resources/views"
     },
     "devDependencies": {
         "@shufo/prettier-plugin-blade": "^1.15.4",

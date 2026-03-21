@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Livewire.dispatch("player-joined");
         })
         .listen(".player.left", () => {
+            console.log("player left")
             Livewire.dispatch("player-left");
         })
         .listen(".game.started", () => {

@@ -31,50 +31,25 @@ class GameRoom extends Component
 
     public function mount(): void
     {
+        if (! Auth::check() || ! $this->room) {
+            $this->redirectRoute('join-game');
+            return;
+        }
+
         $this->players = Player::with('user')->whereHas('room', function ($query) {
             $query->where('code', $this->room->code);
         })->get();
 
-        if (! Auth::check() || ! $this->room) {
-            redirect()->route('join-game');
-        }
+        $player = $this->players->firstWhere('user_id', Auth::id());
 
-        $this->isDrawer = $this->players->firstWhere('user_id', Auth::id())->is_drawer;
-        $this->isHost = (bool) session('is_host');
-    }
-
-    /**
-     * @param  mixed  $type
-     * @param  mixed  $x
-     * @param  mixed  $y
-     * @param  mixed  $color
-     * @param  mixed  $mode
-     * @param  mixed  $userId
-     */
-    #[On('whiteboard-draw')]
-    public function handleDraw($type, $x, $y, $color, $mode, $userId): void
-    {
-        // $player = Player::where('room_id', $this->room->id)
-        //     ->where('user_id', Auth::id())
-        //     ->first();
-        //
-        // if (! $player || ! $player->is_drawer) {
-        //     return;
-        // }
-        if (! $this->isDrawer) {
+        if (!$player) {
+            // If player record is missing but user is authed, redirect to join
+            $this->redirectRoute('join-game');
             return;
         }
 
-        $data = [
-            'x' => $x,
-            'y' => $y,
-            'color' => $color,
-            'mode' => $mode,
-            'userId' => $userId,
-            'type' => $type,
-            'room' => $this->room->code,
-        ];
-        event(new DrawEvent($data));
+        $this->isDrawer = $player->is_drawer;
+        $this->isHost = (bool) session('is_host');
     }
 
     #[On('player-joined')]
@@ -86,6 +61,7 @@ class GameRoom extends Component
         })->get();
     }
 
+    #[On('remove-player')]
     public function removePlayer(): void
     {
         $user = Auth::user();
@@ -94,8 +70,8 @@ class GameRoom extends Component
             ->where('user_id', $user->id)
             ->delete();
 
-        if (Player::where('room_id', $this->room->id)->count() === 0) {
-            Room::find($this->room->id)->delete();
+        if (Player::query()->where('room_id', $this->room->id)->count() === 0) {
+            Room::query()->find($this->room->id)->delete();
         }
 
         if ($user->is_guest == true) {
@@ -108,14 +84,15 @@ class GameRoom extends Component
         $this->redirectRoute('join-game');
     }
 
-    public function startGame(): void
+    // Start the game and broadcast the game-started event
+    #[On('request-start-game')]
+    public function startGame($max_players, $rounds, $drawtime): void
     {
-        if (! session('is_host') || $this->room->status !== RoomStatus::WAITING) {
+        if (! $this->isHost) {
             return;
         }
 
         if ($this->players->count() < 2) {
-            // $this->dispatch('toast', message: "Need at least 2 players");
             $this->js('alert("Need at least 2 players")');
 
             return;
@@ -123,26 +100,31 @@ class GameRoom extends Component
 
         $drawer = $this->pickRandomDrawer();
 
-        $endsAt = now()->addSeconds($this->drawtime);
+        $endsAt = now()->addSeconds($drawtime);
 
         $this->room->update([
             'status' => RoomStatus::PLAYING,
-            'max_players' => $this->max_players,
-            'rounds' => $this->rounds,
-            'round_time' => $this->drawtime,
-            'current_drawer_id' => $drawer->id,
+            'max_players' => $max_players,
+            'rounds' => $rounds,
+            'round_time' => $drawtime,
+            'current_drawer_id' => $drawer->user_id,
+            'round_ends_at' => $endsAt,
         ]);
 
-        event(new GameStarted(
-            roomCode: $this->room->code,
-        ));
+        broadcast(new GameStarted(roomCode: $this->room->code));
     }
 
+    // After listening the event through ws start the game for all players
     #[On('game-started')]
     public function handleGameStarted(): void
     {
-        // $this->dispatch('$refresh');
         $this->room->refresh();
+
+        $player = Player::where('room_id', $this->room->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        $this->isDrawer = $player?->is_drawer ?? false;
 
         if (! $this->isDrawer) {
             return;
@@ -150,13 +132,9 @@ class GameRoom extends Component
 
         $words = $this->pickRandomWords();
 
-        // $this->dispatch('countdown-start', seconds: $this->room->round_time);
         $this->dispatch('show-word-picker', words: $words);
     }
 
-    /**
-     * @return void
-     */
     #[On('drawer-changed')]
     public function updateDrawer(): void
     {

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Game;
 
+use App\Events\DrawEvent;
 use App\Models\Player;
 use App\Models\Room;
 use Illuminate\Contracts\View\View;
@@ -37,16 +38,17 @@ class Canvas extends Component
             return;
         }
 
-        $data = [
+        $payload = [
+            'type' => $type,
             'x' => $x,
             'y' => $y,
             'color' => $color,
             'mode' => $mode,
             'userId' => $userId,
-            'type' => $type,
             'room' => $this->room->code,
         ];
-        event(new DrawEvent($data));
+
+        broadcast(new DrawEvent($payload))->toOthers();
     }
 
     public function render(): View

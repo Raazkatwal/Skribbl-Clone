@@ -5,7 +5,7 @@
     <livewire:game.word-picker />
 
     <canvas wire:ignore id="board" width="750" height="540" class="rounded bg-white"
-        x-init="$wire.$watch('isDrawer', value => window.canDraw = value)"></canvas>
+        x-init="window.canDraw = $wire.isDrawer; $wire.$watch('isDrawer', value => window.canDraw = value)"></canvas>
 
     <livewire:game.tool-bar />
 </div>
