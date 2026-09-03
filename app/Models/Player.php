@@ -12,6 +12,7 @@ class Player extends Model
         'name',
         'score',
         'is_drawer',
+        'has_guessed',
     ];
 
     public function room()

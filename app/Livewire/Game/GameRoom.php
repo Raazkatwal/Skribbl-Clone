@@ -3,7 +3,6 @@
 namespace App\Livewire\Game;
 
 use App\Enums\RoomStatus;
-use App\Events\DrawEvent;
 use App\Events\GameStarted;
 use App\Events\PlayerLeft;
 use App\Models\Player;
@@ -33,6 +32,7 @@ class GameRoom extends Component
     {
         if (! Auth::check() || ! $this->room) {
             $this->redirectRoute('join-game');
+
             return;
         }
 
@@ -42,9 +42,10 @@ class GameRoom extends Component
 
         $player = $this->players->firstWhere('user_id', Auth::id());
 
-        if (!$player) {
+        if (! $player) {
             // If player record is missing but user is authed, redirect to join
             $this->redirectRoute('join-game');
+
             return;
         }
 
@@ -132,7 +133,7 @@ class GameRoom extends Component
 
         $words = $this->pickRandomWords();
 
-        $this->dispatch('show-word-picker', words: $words);
+        $this->dispatch('show-word-picker', words: $words, current_word: $this->room->current_word);
     }
 
     #[On('drawer-changed')]
@@ -145,21 +146,21 @@ class GameRoom extends Component
         $this->isDrawer = $player?->is_drawer ?? false;
     }
 
+    #[On('word-selected')]
     public function selectWord(string $word): void
     {
         if (! $this->isDrawer) {
             return;
         }
 
+        Player::where('room_id', $this->room->id)->update(['has_guessed' => false]);
+
         $this->room->update([
             'current_word' => $word,
             'round_ends_at' => now()->addSeconds($this->room->round_time),
         ]);
 
-        // start timer for everyone
         $this->dispatch('countdown-start', seconds: $this->room->round_time);
-
-        // event(new WordSelected($this->room->code));
     }
 
     public function render(): View
@@ -177,7 +178,7 @@ class GameRoom extends Component
 
     private function pickRandomDrawer()
     {
-        Player::where('room_id', $this->room->id)->update(['is_drawer' => false]);
+        Player::query()->where('room_id', $this->room->id)->update(['is_drawer' => false]);
         $drawer = $this->players->random();
         $drawer->is_drawer = true;
         $drawer->save();

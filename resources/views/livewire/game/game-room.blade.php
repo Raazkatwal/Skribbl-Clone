@@ -10,7 +10,7 @@
             <livewire:game.canvas :room="$room" :is-drawer="$isDrawer" :max-players="$max_players" :rounds="$rounds"
                 :drawtime="$drawtime" :is-host="session('is_host')" />
 
-            <livewire:game.chat />
+            <livewire:game.chat :room="$room" :is-drawer="$isDrawer" />
         </div>
     </div>
 </div>

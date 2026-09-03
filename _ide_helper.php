@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.35.0.
+ * Generated for Laravel 12.63.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -353,7 +353,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Get the path to the views directory.
-         * 
+         *
          * This method returns the first configured path in the array of view paths.
          *
          * @param string $path
@@ -431,7 +431,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Get the fully qualified path to the environment file.
+         * Get the fully-qualified path to the environment file.
          *
          * @return string
          * @static
@@ -1201,6 +1201,57 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @param-closure-this static  $macro
+         * @return void
+         * @static
+         */
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Foundation\Application::macro($name, $macro);
+        }
+
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void
+         * @throws \ReflectionException
+         * @static
+         */
+        public static function mixin($mixin, $replace = true)
+        {
+            \Illuminate\Foundation\Application::mixin($mixin, $replace);
+        }
+
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool
+         * @static
+         */
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Foundation\Application::hasMacro($name);
+        }
+
+        /**
+         * Flush the existing macros.
+         *
+         * @return void
+         * @static
+         */
+        public static function flushMacros()
+        {
+            \Illuminate\Foundation\Application::flushMacros();
+        }
+
+        /**
          * Define a contextual binding.
          *
          * @param array|string $concrete
@@ -1217,8 +1268,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Define a contextual binding based on an attribute.
          *
-         * @param string $attribute
-         * @param \Closure $handler
          * @return void
          * @static
          */
@@ -1231,13 +1280,12 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Returns true if the container can return an entry for the given identifier.
-         * 
+         *
          * Returns false otherwise.
-         * 
+         *
          * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
          * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
          *
-         * @return bool
          * @param string $id Identifier of the entry to look for.
          * @return bool
          * @static
@@ -1449,7 +1497,6 @@ namespace Illuminate\Support\Facades {
          * "Extend" an abstract type in the container.
          *
          * @param string $abstract
-         * @param \Closure $closure
          * @return void
          * @throws \InvalidArgumentException
          * @static
@@ -1526,7 +1573,6 @@ namespace Illuminate\Support\Facades {
          * Bind a new callback to an abstract's rebind event.
          *
          * @param string $abstract
-         * @param \Closure $callback
          * @return mixed
          * @static
          */
@@ -1556,8 +1602,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Wrap the given closure such that its dependencies will be injected when executed.
          *
-         * @param \Closure $callback
-         * @param array $parameters
          * @return \Closure
          * @static
          */
@@ -1605,7 +1649,6 @@ namespace Illuminate\Support\Facades {
          *
          * @template TClass of object
          * @param string|class-string<TClass>|callable $abstract
-         * @param array $parameters
          * @return ($abstract is class-string<TClass> ? TClass : mixed)
          * @throws \Illuminate\Contracts\Container\BindingResolutionException
          * @static
@@ -1652,7 +1695,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Resolve a dependency based on an attribute.
          *
-         * @param \ReflectionAttribute $attribute
          * @return mixed
          * @static
          */
@@ -1667,7 +1709,6 @@ namespace Illuminate\Support\Facades {
          * Register a new before resolving callback for all types.
          *
          * @param \Closure|string $abstract
-         * @param \Closure|null $callback
          * @return void
          * @static
          */
@@ -1682,7 +1723,6 @@ namespace Illuminate\Support\Facades {
          * Register a new resolving callback.
          *
          * @param \Closure|string $abstract
-         * @param \Closure|null $callback
          * @return void
          * @static
          */
@@ -1697,7 +1737,6 @@ namespace Illuminate\Support\Facades {
          * Register a new after resolving callback for all types.
          *
          * @param \Closure|string $abstract
-         * @param \Closure|null $callback
          * @return void
          * @static
          */
@@ -1711,8 +1750,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a new after resolving attribute callback for all types.
          *
-         * @param string $attribute
-         * @param \Closure $callback
          * @return void
          * @static
          */
@@ -1875,7 +1912,6 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the shared instance of the container.
          *
-         * @param \Illuminate\Contracts\Container\Container|null $container
          * @return \Illuminate\Contracts\Container\Container|static
          * @static
          */
@@ -1889,7 +1925,6 @@ namespace Illuminate\Support\Facades {
          * Determine if a given offset exists.
          *
          * @param string $key
-         * @return bool
          * @static
          */
         public static function offsetExists($key)
@@ -1903,7 +1938,6 @@ namespace Illuminate\Support\Facades {
          * Get the value at a given offset.
          *
          * @param string $key
-         * @return mixed
          * @static
          */
         public static function offsetGet($key)
@@ -1918,79 +1952,26 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param mixed $value
-         * @return void
          * @static
          */
         public static function offsetSet($key, $value)
         {
             //Method inherited from \Illuminate\Container\Container 
             /** @var \Illuminate\Foundation\Application $instance */
-            $instance->offsetSet($key, $value);
+            return $instance->offsetSet($key, $value);
         }
 
         /**
          * Unset the value at a given offset.
          *
          * @param string $key
-         * @return void
          * @static
          */
         public static function offsetUnset($key)
         {
             //Method inherited from \Illuminate\Container\Container 
             /** @var \Illuminate\Foundation\Application $instance */
-            $instance->offsetUnset($key);
-        }
-
-        /**
-         * Register a custom macro.
-         *
-         * @param string $name
-         * @param object|callable $macro
-         * @param-closure-this static  $macro
-         * @return void
-         * @static
-         */
-        public static function macro($name, $macro)
-        {
-            \Illuminate\Foundation\Application::macro($name, $macro);
-        }
-
-        /**
-         * Mix another object into the class.
-         *
-         * @param object $mixin
-         * @param bool $replace
-         * @return void
-         * @throws \ReflectionException
-         * @static
-         */
-        public static function mixin($mixin, $replace = true)
-        {
-            \Illuminate\Foundation\Application::mixin($mixin, $replace);
-        }
-
-        /**
-         * Checks if macro is registered.
-         *
-         * @param string $name
-         * @return bool
-         * @static
-         */
-        public static function hasMacro($name)
-        {
-            return \Illuminate\Foundation\Application::hasMacro($name);
-        }
-
-        /**
-         * Flush the existing macros.
-         *
-         * @return void
-         * @static
-         */
-        public static function flushMacros()
-        {
-            \Illuminate\Foundation\Application::flushMacros();
+            return $instance->offsetUnset($key);
         }
 
             }
@@ -2600,6 +2581,19 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Create a HMAC of the password hash for storage in cookies.
+         *
+         * @param string $passwordHash
+         * @return string
+         * @static
+         */
+        public static function hashPasswordForCookie($passwordHash)
+        {
+            /** @var \Illuminate\Auth\SessionGuard $instance */
+            return $instance->hashPasswordForCookie($passwordHash);
+        }
+
+        /**
          * Log the user out of the application.
          *
          * @return void
@@ -2613,7 +2607,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Log the user out of the application on their current device only.
-         * 
+         *
          * This method does not cycle the "remember" token.
          *
          * @return void
@@ -2627,7 +2621,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Invalidate other sessions for the current user.
-         * 
+         *
          * The application must be using the AuthenticateSession middleware.
          *
          * @param string $password
@@ -3305,7 +3299,7 @@ namespace Illuminate\Support\Facades {
          * Register a handler for custom directives.
          *
          * @param string $name
-         * @param callable $handler
+         * @param ($bind is true ? \Closure : callable) $handler
          * @param bool $bind
          * @return void
          * @throws \InvalidArgumentException
@@ -3419,35 +3413,6 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Get the path to the compiled version of a view.
-         *
-         * @param string $path
-         * @return string
-         * @static
-         */
-        public static function getCompiledPath($path)
-        {
-            //Method inherited from \Illuminate\View\Compilers\Compiler 
-            /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
-            return $instance->getCompiledPath($path);
-        }
-
-        /**
-         * Determine if the view at the given path is expired.
-         *
-         * @param string $path
-         * @return bool
-         * @throws \ErrorException
-         * @static
-         */
-        public static function isExpired($path)
-        {
-            //Method inherited from \Illuminate\View\Compilers\Compiler 
-            /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
-            return $instance->isExpired($path);
-        }
-
-        /**
          * Get a new component hash for a component name.
          *
          * @param string $component
@@ -3550,6 +3515,35 @@ namespace Illuminate\Support\Facades {
             return $instance->applyEchoHandler($value);
         }
 
+        /**
+         * Get the path to the compiled version of a view.
+         *
+         * @param string $path
+         * @return string
+         * @static
+         */
+        public static function getCompiledPath($path)
+        {
+            //Method inherited from \Illuminate\View\Compilers\Compiler 
+            /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
+            return $instance->getCompiledPath($path);
+        }
+
+        /**
+         * Determine if the view at the given path is expired.
+         *
+         * @param string $path
+         * @return bool
+         * @throws \ErrorException
+         * @static
+         */
+        public static function isExpired($path)
+        {
+            //Method inherited from \Illuminate\View\Compilers\Compiler 
+            /** @var \Illuminate\View\Compilers\BladeCompiler $instance */
+            return $instance->isExpired($path);
+        }
+
             }
     /**
      * @method static mixed auth(\Illuminate\Http\Request $request)
@@ -3591,7 +3585,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Register the routes for handling broadcast authentication and sockets.
-         * 
+         *
          * Alias of "routes" method.
          *
          * @param array|null $attributes
@@ -3754,7 +3748,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Disconnect the given disk and remove from local cache.
+         * Disconnect the given driver / connection and remove it from local cache.
          *
          * @param string|null $name
          * @return void
@@ -3838,7 +3832,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Dispatch a command to its appropriate handler in the current process.
-         * 
+         *
          * Queueable jobs will be dispatched to the "sync" queue.
          *
          * @param mixed $command
@@ -4037,7 +4031,6 @@ namespace Illuminate\Support\Facades {
          * Assert if a job was pushed exactly once.
          *
          * @param string|\Closure $command
-         * @param int $times
          * @return void
          * @static
          */
@@ -4213,7 +4206,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Create a new assertion about a chained batch.
          *
-         * @param \Closure $callback
+         * @param \Closure(\Illuminate\Bus\PendingBatch):  bool  $callback
          * @return \Illuminate\Support\Testing\Fakes\ChainedBatchTruthTest
          * @static
          */
@@ -4226,7 +4219,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Assert if a batch was dispatched based on a truth-test callback.
          *
-         * @param callable $callback
+         * @param array|callable(\Illuminate\Bus\PendingBatch):  bool  $callback
          * @return void
          * @static
          */
@@ -4318,8 +4311,8 @@ namespace Illuminate\Support\Facades {
         /**
          * Get all of the pending batches matching a truth-test callback.
          *
-         * @param callable $callback
-         * @return \Illuminate\Support\Collection
+         * @param callable(\Illuminate\Bus\PendingBatch):  bool  $callback
+         * @return \Illuminate\Support\Collection<int, \Illuminate\Bus\PendingBatch>
          * @static
          */
         public static function batched($callback)
@@ -4482,6 +4475,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $config
          * @return \Illuminate\Cache\Repository
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function build($config)
@@ -4598,7 +4592,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if an item exists in the cache.
          *
-         * @param array|string $key
+         * @param \UnitEnum|array|string $key
          * @return bool
          * @static
          */
@@ -4611,7 +4605,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if an item doesn't exist in the cache.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @return bool
          * @static
          */
@@ -4624,7 +4618,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Retrieve an item from the cache by key.
          *
-         * @param array|string $key
+         * @param \UnitEnum|array|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -4637,7 +4631,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Retrieve multiple items from the cache by key.
-         * 
+         *
          * Items not found in the cache will have a null value.
          *
          * @param array $keys
@@ -4671,7 +4665,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Retrieve an item from the cache and delete it.
          *
-         * @param array|string $key
+         * @param \UnitEnum|array|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -4683,9 +4677,84 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Retrieve a string item from the cache.
+         *
+         * @param \UnitEnum|string $key
+         * @param (\Closure():(string|null))|string|null $default
+         * @return string
+         * @throws \InvalidArgumentException
+         * @static
+         */
+        public static function string($key, $default = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->string($key, $default);
+        }
+
+        /**
+         * Retrieve an integer item from the cache.
+         *
+         * @param \UnitEnum|string $key
+         * @param (\Closure():(int|null))|int|null $default
+         * @return int
+         * @throws \InvalidArgumentException
+         * @static
+         */
+        public static function integer($key, $default = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->integer($key, $default);
+        }
+
+        /**
+         * Retrieve a float item from the cache.
+         *
+         * @param \UnitEnum|string $key
+         * @param (\Closure():(float|null))|float|null $default
+         * @return float
+         * @throws \InvalidArgumentException
+         * @static
+         */
+        public static function float($key, $default = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->float($key, $default);
+        }
+
+        /**
+         * Retrieve a boolean item from the cache.
+         *
+         * @param \UnitEnum|string $key
+         * @param (\Closure():(bool|null))|bool|null $default
+         * @return bool
+         * @throws \InvalidArgumentException
+         * @static
+         */
+        public static function boolean($key, $default = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->boolean($key, $default);
+        }
+
+        /**
+         * Retrieve an array item from the cache.
+         *
+         * @param \UnitEnum|string $key
+         * @param (\Closure():(array<array-key, mixed>|null))|array<array-key, mixed>|null $default
+         * @return array<array-key, mixed>
+         * @throws \InvalidArgumentException
+         * @static
+         */
+        public static function array($key, $default = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->array($key, $default);
+        }
+
+        /**
          * Store an item in the cache.
          *
-         * @param array|string $key
+         * @param \UnitEnum|array|string $key
          * @param mixed $value
          * @param \DateTimeInterface|\DateInterval|int|null $ttl
          * @return bool
@@ -4698,17 +4767,12 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Persists data in the cache, uniquely referenced by a key with an optional expiration TTL time.
+         * Store an item in the cache.
          *
+         * @param \UnitEnum|array|string $key
+         * @param mixed $value
+         * @param \DateTimeInterface|\DateInterval|int|null $ttl
          * @return bool
-         * @param string $key The key of the item to store.
-         * @param mixed $value The value of the item to store, must be serializable.
-         * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
-         *                                      the driver supports TTL then the library may set a default value
-         *                                      for it or let the driver take care of that.
-         * @return bool True on success and false on failure.
-         * @throws \Psr\SimpleCache\InvalidArgumentException
-         *   MUST be thrown if the $key string is not a legal value.
          * @static
          */
         public static function set($key, $value, $ttl = null)
@@ -4754,7 +4818,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache if the key does not exist.
          *
-         * @param string $key
+         * @param \UnitEnum|array|string $key
          * @param mixed $value
          * @param \DateTimeInterface|\DateInterval|int|null $ttl
          * @return bool
@@ -4769,7 +4833,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Increment the value of an item in the cache.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return int|bool
          * @static
@@ -4783,7 +4847,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Decrement the value of an item in the cache.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return int|bool
          * @static
@@ -4797,7 +4861,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache indefinitely.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return bool
          * @static
@@ -4812,7 +4876,7 @@ namespace Illuminate\Support\Facades {
          * Get an item from the cache, or execute the given Closure and store the result.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param \Closure|\DateTimeInterface|\DateInterval|int|null $ttl
          * @param \Closure():  TCacheValue  $callback
          * @return TCacheValue
@@ -4828,7 +4892,7 @@ namespace Illuminate\Support\Facades {
          * Get an item from the cache, or execute the given Closure and store the result forever.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param \Closure():  TCacheValue  $callback
          * @return TCacheValue
          * @static
@@ -4843,7 +4907,7 @@ namespace Illuminate\Support\Facades {
          * Get an item from the cache, or execute the given Closure and store the result forever.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param \Closure():  TCacheValue  $callback
          * @return TCacheValue
          * @static
@@ -4858,7 +4922,7 @@ namespace Illuminate\Support\Facades {
          * Retrieve an item from the cache by key, refreshing it in the background if it is stale.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param array{ 0: \DateTimeInterface|\DateInterval|int, 1: \DateTimeInterface|\DateInterval|int } $ttl
          * @param (callable(): TCacheValue) $callback
          * @param array{ seconds?: int, owner?: string }|null $lock
@@ -4873,9 +4937,41 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Execute a callback while holding an atomic lock on a cache mutex to prevent overlapping calls.
+         *
+         * @template TReturn
+         * @param \UnitEnum|string $key
+         * @param callable():  TReturn  $callback
+         * @param int $lockFor
+         * @param int $waitFor
+         * @param string|null $owner
+         * @return TReturn
+         * @throws \Illuminate\Contracts\Cache\LockTimeoutException
+         * @static
+         */
+        public static function withoutOverlapping($key, $callback, $lockFor = 0, $waitFor = 10, $owner = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->withoutOverlapping($key, $callback, $lockFor, $waitFor, $owner);
+        }
+
+        /**
+         * Funnel a callback for a maximum number of simultaneous executions.
+         *
+         * @param \UnitEnum|string $name
+         * @return \Illuminate\Cache\Limiters\ConcurrencyLimiterBuilder
+         * @static
+         */
+        public static function funnel($name)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->funnel($name);
+        }
+
+        /**
          * Remove an item from the cache.
          *
-         * @param string $key
+         * @param \UnitEnum|array|string $key
          * @return bool
          * @static
          */
@@ -4886,13 +4982,10 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Delete an item from the cache by its unique key.
+         * Remove an item from the cache.
          *
+         * @param \UnitEnum|array|string $key
          * @return bool
-         * @param string $key The unique cache key of the item to delete.
-         * @return bool True if the item was successfully removed. False if there was an error.
-         * @throws \Psr\SimpleCache\InvalidArgumentException
-         *   MUST be thrown if the $key string is not a legal value.
          * @static
          */
         public static function delete($key)
@@ -5047,7 +5140,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if a cached value exists.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @return bool
          * @static
          */
@@ -5060,7 +5153,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Retrieve an item from the cache by key.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @return mixed
          * @static
          */
@@ -5073,7 +5166,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache for the default time.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -5087,7 +5180,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Remove an item from the cache.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @return void
          * @static
          */
@@ -5190,6 +5283,21 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Cache\FileStore $instance */
             return $instance->restoreLock($name, $owner);
+        }
+
+        /**
+         * Atomically refresh the expiration of a cache key if it matches the expected owner.
+         *
+         * @param string $key
+         * @param mixed $expectedOwner
+         * @param int $seconds
+         * @return bool
+         * @static
+         */
+        public static function refreshIfOwned($key, $expectedOwner, $seconds)
+        {
+            /** @var \Illuminate\Cache\FileStore $instance */
+            return $instance->refreshIfOwned($key, $expectedOwner, $seconds);
         }
 
         /**
@@ -5302,41 +5410,38 @@ namespace Illuminate\Support\Facades {
         /**
          * Create an instance of the process concurrency driver.
          *
-         * @param array $config
          * @return \Illuminate\Concurrency\ProcessDriver
          * @static
          */
-        public static function createProcessDriver($config)
+        public static function createProcessDriver()
         {
             /** @var \Illuminate\Concurrency\ConcurrencyManager $instance */
-            return $instance->createProcessDriver($config);
+            return $instance->createProcessDriver();
         }
 
         /**
          * Create an instance of the fork concurrency driver.
          *
-         * @param array $config
          * @return \Illuminate\Concurrency\ForkDriver
          * @throws \RuntimeException
          * @static
          */
-        public static function createForkDriver($config)
+        public static function createForkDriver()
         {
             /** @var \Illuminate\Concurrency\ConcurrencyManager $instance */
-            return $instance->createForkDriver($config);
+            return $instance->createForkDriver();
         }
 
         /**
          * Create an instance of the sync concurrency driver.
          *
-         * @param array $config
          * @return \Illuminate\Concurrency\SyncDriver
          * @static
          */
-        public static function createSyncDriver($config)
+        public static function createSyncDriver()
         {
             /** @var \Illuminate\Concurrency\ConcurrencyManager $instance */
-            return $instance->createSyncDriver($config);
+            return $instance->createSyncDriver();
         }
 
         /**
@@ -5500,6 +5605,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key
          * @param (\Closure():(string|null))|string|null $default
          * @return string
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function string($key, $default = null)
@@ -5514,6 +5620,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key
          * @param (\Closure():(int|null))|int|null $default
          * @return int
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function integer($key, $default = null)
@@ -5528,6 +5635,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key
          * @param (\Closure():(float|null))|float|null $default
          * @return float
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function float($key, $default = null)
@@ -5542,6 +5650,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key
          * @param (\Closure():(bool|null))|bool|null $default
          * @return bool
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function boolean($key, $default = null)
@@ -5556,6 +5665,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key
          * @param (\Closure():(array<array-key, mixed>|null))|array<array-key, mixed>|null $default
          * @return array<array-key, mixed>
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function array($key, $default = null)
@@ -6154,12 +6264,13 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Run the callback function with the given context values and restore the original context state when complete.
+         * @template TReturn of mixed
          *
-         * @param callable $callback
+         * Run the callback function with the given context values and restore the original context state when complete.
+         * @param (callable(): TReturn) $callback
          * @param array<string, mixed> $data
          * @param array<string, mixed> $hidden
-         * @return mixed
+         * @return TReturn
          * @throws \Throwable
          * @static
          */
@@ -6184,7 +6295,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Execute the given callback when context is about to be dehydrated.
          *
-         * @param callable $callback
+         * @param (callable(static): void) $callback
          * @return \Illuminate\Log\Context\Repository
          * @static
          */
@@ -6197,7 +6308,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Execute the given callback when context has been hydrated.
          *
-         * @param callable $callback
+         * @param (callable(static): void) $callback
          * @return \Illuminate\Log\Context\Repository
          * @static
          */
@@ -6667,6 +6778,18 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Encryption\Encrypter $instance */
             return $instance->decryptString($payload);
+        }
+
+        /**
+         * Determine if the given value appears to be encrypted by this encrypter.
+         *
+         * @param mixed $value
+         * @return bool
+         * @static
+         */
+        public static function appearsEncrypted($value)
+        {
+            return \Illuminate\Encryption\Encrypter::appearsEncrypted($value);
         }
 
         /**
@@ -7641,7 +7764,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a database query listener with the connection.
          *
-         * @param \Closure $callback
+         * @param \Closure(\Illuminate\Database\Events\QueryExecuted) $callback
          * @return void
          * @static
          */
@@ -7831,6 +7954,20 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Set the read PDO connection configuration.
+         *
+         * @param array $config
+         * @return \Illuminate\Database\SQLiteConnection
+         * @static
+         */
+        public static function setReadPdoConfig($config)
+        {
+            //Method inherited from \Illuminate\Database\Connection 
+            /** @var \Illuminate\Database\SQLiteConnection $instance */
+            return $instance->setReadPdoConfig($config);
+        }
+
+        /**
          * Get the database connection name.
          *
          * @return string|null
@@ -7844,7 +7981,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Get the database connection full name.
+         * Get the database connection with its read / write type.
          *
          * @return string|null
          * @static
@@ -7967,7 +8104,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the event dispatcher used by the connection.
          *
-         * @return \Illuminate\Contracts\Events\Dispatcher
+         * @return \Illuminate\Contracts\Events\Dispatcher|null
          * @static
          */
         public static function getEventDispatcher()
@@ -8246,7 +8383,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * @template TReturn of mixed
-         * 
+         *
          * Execute a Closure within a transaction.
          * @param (\Closure(static): TReturn) $callback
          * @param int $attempts
@@ -8438,7 +8575,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string|object $event
          * @param mixed $payload
-         * @return mixed
+         * @return array|null
          * @static
          */
         public static function until($event, $payload = [])
@@ -8478,7 +8615,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register an event listener with the dispatcher.
          *
-         * @param \Closure|string|array $listener
+         * @param \Closure|string|array{class-string, string} $listener
          * @param bool $wildcard
          * @return \Closure
          * @static
@@ -8531,7 +8668,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the queue resolver implementation.
          *
-         * @param callable $resolver
+         * @param callable():  \Illuminate\Contracts\Queue\Queue  $resolver
          * @return \Illuminate\Events\Dispatcher
          * @static
          */
@@ -8544,7 +8681,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the database transaction manager resolver implementation.
          *
-         * @param callable $resolver
+         * @param (callable(): (\Illuminate\Database\DatabaseTransactionsManager|null)) $resolver
          * @return \Illuminate\Events\Dispatcher
          * @static
          */
@@ -8557,9 +8694,10 @@ namespace Illuminate\Support\Facades {
         /**
          * Execute the given callback while deferring events, then dispatch all deferred events.
          *
-         * @param callable $callback
-         * @param array|null $events
-         * @return mixed
+         * @template TResult
+         * @param callable():  TResult  $callback
+         * @param string[]|null $events
+         * @return TResult
          * @static
          */
         public static function defer($callback, $events = null)
@@ -8676,7 +8814,6 @@ namespace Illuminate\Support\Facades {
          * Assert if an event was dispatched exactly once.
          *
          * @param string $event
-         * @param int $times
          * @return void
          * @static
          */
@@ -9109,7 +9246,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Guess the file extension from the mime-type of a given file.
+         * Guess the file extension from the MIME type of a given file.
          *
          * @param string $path
          * @return string|null
@@ -9126,7 +9263,7 @@ namespace Illuminate\Support\Facades {
          * Get the file type of a given file.
          *
          * @param string $path
-         * @return string
+         * @return string|false
          * @static
          */
         public static function type($path)
@@ -9136,7 +9273,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Get the mime-type of a given file.
+         * Get the MIME type of a given file.
          *
          * @param string $path
          * @return string|false
@@ -9276,10 +9413,10 @@ namespace Illuminate\Support\Facades {
          * @return \Symfony\Component\Finder\SplFileInfo[]
          * @static
          */
-        public static function files($directory, $hidden = false)
+        public static function files($directory, $hidden = false, $depth = 0)
         {
             /** @var \Illuminate\Filesystem\Filesystem $instance */
-            return $instance->files($directory, $hidden);
+            return $instance->files($directory, $hidden, $depth);
         }
 
         /**
@@ -9303,10 +9440,22 @@ namespace Illuminate\Support\Facades {
          * @return array
          * @static
          */
-        public static function directories($directory)
+        public static function directories($directory, $depth = 0)
         {
             /** @var \Illuminate\Filesystem\Filesystem $instance */
-            return $instance->directories($directory);
+            return $instance->directories($directory, $depth);
+        }
+
+        /**
+         * Get all the directories within a given directory (recursive).
+         *
+         * @return array
+         * @static
+         */
+        public static function allDirectories($directory)
+        {
+            /** @var \Illuminate\Filesystem\Filesystem $instance */
+            return $instance->allDirectories($directory);
         }
 
         /**
@@ -9372,7 +9521,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Recursively delete a directory.
-         * 
+         *
          * The directory itself may be optionally preserved.
          *
          * @param string $directory
@@ -9505,7 +9654,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if a given ability has been defined.
          *
-         * @param string|array $ability
+         * @param \UnitEnum|array|string $ability
          * @return bool
          * @static
          */
@@ -10117,21 +10266,23 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Http\Client\PendingRequest withMiddleware(callable $middleware)
      * @method static \Illuminate\Http\Client\PendingRequest withRequestMiddleware(callable $middleware)
      * @method static \Illuminate\Http\Client\PendingRequest withResponseMiddleware(callable $middleware)
+     * @method static \Illuminate\Http\Client\PendingRequest withAttributes(array $attributes)
      * @method static \Illuminate\Http\Client\PendingRequest beforeSending(callable $callback)
+     * @method static \Illuminate\Http\Client\PendingRequest afterResponse(callable|null $callback)
      * @method static \Illuminate\Http\Client\PendingRequest throw(callable|null $callback = null)
      * @method static \Illuminate\Http\Client\PendingRequest throwIf(callable|bool $condition)
      * @method static \Illuminate\Http\Client\PendingRequest throwUnless(callable|bool $condition)
      * @method static \Illuminate\Http\Client\PendingRequest dump()
      * @method static \Illuminate\Http\Client\PendingRequest dd()
-     * @method static \Illuminate\Http\Client\Response get(string $url, array|string|null $query = null)
-     * @method static \Illuminate\Http\Client\Response head(string $url, array|string|null $query = null)
-     * @method static \Illuminate\Http\Client\Response post(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
-     * @method static \Illuminate\Http\Client\Response patch(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
-     * @method static \Illuminate\Http\Client\Response put(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
-     * @method static \Illuminate\Http\Client\Response delete(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
-     * @method static array pool(callable $callback)
+     * @method static \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface get(string $url, array|string|null $query = null)
+     * @method static \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface head(string $url, array|string|null $query = null)
+     * @method static \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface post(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
+     * @method static \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface patch(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
+     * @method static \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface put(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
+     * @method static \Illuminate\Http\Client\Response|\GuzzleHttp\Promise\PromiseInterface delete(string $url, array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable $data = [])
+     * @method static array pool(callable $callback, int|null $concurrency = null)
      * @method static \Illuminate\Http\Client\Batch batch(callable $callback)
-     * @method static \Illuminate\Http\Client\Response send(string $method, string $url, array $options = [])
+     * @method static \Illuminate\Http\Client\Response|\Illuminate\Http\Client\Promises\LazyPromise send(string $method, string $url, array $options = [])
      * @method static \GuzzleHttp\Client buildClient()
      * @method static \GuzzleHttp\Client createClient(\GuzzleHttp\HandlerStack $handlerStack)
      * @method static \GuzzleHttp\HandlerStack buildHandlerStack()
@@ -10139,7 +10290,7 @@ namespace Illuminate\Support\Facades {
      * @method static \Closure buildBeforeSendingHandler()
      * @method static \Closure buildRecorderHandler()
      * @method static \Closure buildStubHandler()
-     * @method static \GuzzleHttp\Psr7\RequestInterface runBeforeSendingCallbacks(\GuzzleHttp\Psr7\RequestInterface $request, array $options)
+     * @method static \Psr\Http\Message\RequestInterface runBeforeSendingCallbacks(\Psr\Http\Message\RequestInterface $request, array $options)
      * @method static array mergeOptions(array ...$options)
      * @method static \Illuminate\Http\Client\PendingRequest stub(callable $callback)
      * @method static bool isAllowedRequestUrl(string $url)
@@ -10872,34 +11023,6 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Set the parsed value of a key.
-         *
-         * @param string $key
-         * @param array $parsed
-         * @return void
-         * @static
-         */
-        public static function setParsedKey($key, $parsed)
-        {
-            //Method inherited from \Illuminate\Support\NamespacedItemResolver 
-            /** @var \Illuminate\Translation\Translator $instance */
-            $instance->setParsedKey($key, $parsed);
-        }
-
-        /**
-         * Flush the cache of parsed keys.
-         *
-         * @return void
-         * @static
-         */
-        public static function flushParsedKeys()
-        {
-            //Method inherited from \Illuminate\Support\NamespacedItemResolver 
-            /** @var \Illuminate\Translation\Translator $instance */
-            $instance->flushParsedKeys();
-        }
-
-        /**
          * Register a custom macro.
          *
          * @param string $name
@@ -10950,13 +11073,41 @@ namespace Illuminate\Support\Facades {
             \Illuminate\Translation\Translator::flushMacros();
         }
 
+        /**
+         * Set the parsed value of a key.
+         *
+         * @param string $key
+         * @param array $parsed
+         * @return void
+         * @static
+         */
+        public static function setParsedKey($key, $parsed)
+        {
+            //Method inherited from \Illuminate\Support\NamespacedItemResolver 
+            /** @var \Illuminate\Translation\Translator $instance */
+            $instance->setParsedKey($key, $parsed);
+        }
+
+        /**
+         * Flush the cache of parsed keys.
+         *
+         * @return void
+         * @static
+         */
+        public static function flushParsedKeys()
+        {
+            //Method inherited from \Illuminate\Support\NamespacedItemResolver 
+            /** @var \Illuminate\Translation\Translator $instance */
+            $instance->flushParsedKeys();
+        }
+
             }
     /**
      * @method static void write(string $level, \Illuminate\Contracts\Support\Arrayable|\Illuminate\Contracts\Support\Jsonable|\Illuminate\Support\Stringable|array|string $message, array $context = [])
      * @method static \Illuminate\Log\Logger withContext(array $context = [])
      * @method static void listen(\Closure $callback)
      * @method static \Psr\Log\LoggerInterface getLogger()
-     * @method static \Illuminate\Contracts\Events\Dispatcher getEventDispatcher()
+     * @method static \Illuminate\Contracts\Events\Dispatcher|null getEventDispatcher()
      * @method static void setEventDispatcher(\Illuminate\Contracts\Events\Dispatcher $dispatcher)
      * @method static \Illuminate\Log\Logger|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
      * @method static \Illuminate\Log\Logger|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
@@ -11147,7 +11298,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Action must be taken immediately.
-         * 
+         *
          * Example: Entire website down, database unavailable, etc. This should
          * trigger the SMS alerts and wake you up.
          *
@@ -11164,7 +11315,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Critical conditions.
-         * 
+         *
          * Example: Application component unavailable, unexpected exception.
          *
          * @param string|\Stringable $message
@@ -11195,7 +11346,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Exceptional occurrences that are not errors.
-         * 
+         *
          * Example: Use of deprecated APIs, poor use of an API, undesirable things
          * that are not necessarily wrong.
          *
@@ -11226,7 +11377,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Interesting events.
-         * 
+         *
          * Example: User logs in, SQL logs.
          *
          * @param string|\Stringable $message
@@ -11460,6 +11611,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
             $instance->assertSent($mailable, $callback);
+        }
+
+        /**
+         * Assert if a mailable was sent a number of times.
+         *
+         * @param string $mailable
+         * @param int $times
+         * @return void
+         * @static
+         */
+        public static function assertSentTimes($mailable, $times = 1)
+        {
+            /** @var \Illuminate\Support\Testing\Fakes\MailFake $instance */
+            $instance->assertSentTimes($mailable, $times);
         }
 
         /**
@@ -11858,6 +12023,57 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @param-closure-this static  $macro
+         * @return void
+         * @static
+         */
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Notifications\ChannelManager::macro($name, $macro);
+        }
+
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void
+         * @throws \ReflectionException
+         * @static
+         */
+        public static function mixin($mixin, $replace = true)
+        {
+            \Illuminate\Notifications\ChannelManager::mixin($mixin, $replace);
+        }
+
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool
+         * @static
+         */
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Notifications\ChannelManager::hasMacro($name);
+        }
+
+        /**
+         * Flush the existing macros.
+         *
+         * @return void
+         * @static
+         */
+        public static function flushMacros()
+        {
+            \Illuminate\Notifications\ChannelManager::flushMacros();
+        }
+
+        /**
          * Get a driver instance.
          *
          * @param string|null $driver
@@ -12121,57 +12337,6 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
             return $instance->sentNotifications();
-        }
-
-        /**
-         * Register a custom macro.
-         *
-         * @param string $name
-         * @param object|callable $macro
-         * @param-closure-this static  $macro
-         * @return void
-         * @static
-         */
-        public static function macro($name, $macro)
-        {
-            \Illuminate\Support\Testing\Fakes\NotificationFake::macro($name, $macro);
-        }
-
-        /**
-         * Mix another object into the class.
-         *
-         * @param object $mixin
-         * @param bool $replace
-         * @return void
-         * @throws \ReflectionException
-         * @static
-         */
-        public static function mixin($mixin, $replace = true)
-        {
-            \Illuminate\Support\Testing\Fakes\NotificationFake::mixin($mixin, $replace);
-        }
-
-        /**
-         * Checks if macro is registered.
-         *
-         * @param string $name
-         * @return bool
-         * @static
-         */
-        public static function hasMacro($name)
-        {
-            return \Illuminate\Support\Testing\Fakes\NotificationFake::hasMacro($name);
-        }
-
-        /**
-         * Flush the existing macros.
-         *
-         * @return void
-         * @static
-         */
-        public static function flushMacros()
-        {
-            \Illuminate\Support\Testing\Fakes\NotificationFake::flushMacros();
         }
 
             }
@@ -12674,6 +12839,77 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Pause a queue by its connection and name.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @return void
+         * @static
+         */
+        public static function pause($connection, $queue)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            $instance->pause($connection, $queue);
+        }
+
+        /**
+         * Pause a queue by its connection and name for a given amount of time.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @param \DateTimeInterface|\DateInterval|int $ttl
+         * @return void
+         * @static
+         */
+        public static function pauseFor($connection, $queue, $ttl)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            $instance->pauseFor($connection, $queue, $ttl);
+        }
+
+        /**
+         * Resume a paused queue by its connection and name.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @return void
+         * @static
+         */
+        public static function resume($connection, $queue)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            $instance->resume($connection, $queue);
+        }
+
+        /**
+         * Determine if a queue is paused.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @return bool
+         * @static
+         */
+        public static function isPaused($connection, $queue)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            return $instance->isPaused($connection, $queue);
+        }
+
+        /**
+         * Indicate that queue workers should not poll for restart or pause signals.
+         *
+         * This prevents the workers from hitting the application cache to determine if they need to pause or restart.
+         *
+         * @return void
+         * @static
+         */
+        public static function withoutInterruptionPolling()
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            $instance->withoutInterruptionPolling();
+        }
+
+        /**
          * Add a queue connection resolver.
          *
          * @param string $driver
@@ -12789,6 +13025,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
             $instance->assertPushed($job, $callback);
+        }
+
+        /**
+         * Assert if a job was pushed a number of times.
+         *
+         * @param string $job
+         * @param int $times
+         * @return void
+         * @static
+         */
+        public static function assertPushedTimes($job, $times = 1)
+        {
+            /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
+            $instance->assertPushedTimes($job, $times);
         }
 
         /**
@@ -13175,6 +13425,18 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Release the locks for all unique jobs that were pushed.
+         *
+         * @return void
+         * @static
+         */
+        public static function releaseUniqueJobLocks()
+        {
+            /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
+            $instance->releaseUniqueJobLocks();
+        }
+
+        /**
          * Get the connection name for the queue.
          *
          * @return string
@@ -13397,9 +13659,9 @@ namespace Illuminate\Support\Facades {
      */
     class RateLimiter {
         /**
-         * Register a named limiter configuration.
+         * Register a named rate limiter configuration.
          *
-         * @param \BackedEnum|\UnitEnum|string $name
+         * @param \UnitEnum|string $name
          * @param \Closure $callback
          * @return \Illuminate\Cache\RateLimiter
          * @static
@@ -13413,7 +13675,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the given named rate limiter.
          *
-         * @param \BackedEnum|\UnitEnum|string $name
+         * @param \UnitEnum|string $name
          * @return \Closure|null
          * @static
          */
@@ -14193,6 +14455,18 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Gets a list of content types acceptable by the client browser in preferable order.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getAcceptableContentTypes()
+        {
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getAcceptableContentTypes();
+        }
+
+        /**
          * Merge new input into the current request's input array.
          *
          * @param array $input
@@ -14233,12 +14507,13 @@ namespace Illuminate\Support\Facades {
 
         /**
          * This method belongs to Symfony HttpFoundation and is not usually needed when using Laravel.
-         * 
+         *
          * Instead, you may use the "input" method.
          *
          * @param string $key
          * @param mixed $default
          * @return mixed
+         * @deprecated use ->input() instead
          * @static
          */
         public static function get($key, $default = null)
@@ -14306,7 +14581,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Whether the request contains a Session object.
-         * 
+         *
          * This method does not give any information about the state of the session object,
          * like whether the session is started or not. It is just a way to check if this Request
          * is associated with a Session instance.
@@ -14323,6 +14598,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Gets the Session.
          *
+         * @throws \Symfony\Component\HttpFoundation\Exception\SessionNotFoundException
          * @throws SessionNotFoundException When session is not set properly
          * @static
          */
@@ -14553,990 +14829,6 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Sets the parameters for this request.
-         * 
-         * This method also re-initializes all properties.
-         *
-         * @param array $query The GET parameters
-         * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
-         * @param array $cookies The COOKIE parameters
-         * @param array $files The FILES parameters
-         * @param array $server The SERVER parameters
-         * @param string|resource|null $content The raw body data
-         * @static
-         */
-        public static function initialize($query = [], $request = [], $attributes = [], $cookies = [], $files = [], $server = [], $content = null)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
-        }
-
-        /**
-         * Creates a new request with values from PHP's super globals.
-         *
-         * @static
-         */
-        public static function createFromGlobals()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::createFromGlobals();
-        }
-
-        /**
-         * Creates a Request based on a given URI and configuration.
-         * 
-         * The information contained in the URI always take precedence
-         * over the other information (server and parameters).
-         *
-         * @param string $uri The URI
-         * @param string $method The HTTP method
-         * @param array $parameters The query (GET) or request (POST) parameters
-         * @param array $cookies The request cookies ($_COOKIE)
-         * @param array $files The request files ($_FILES)
-         * @param array $server The server parameters ($_SERVER)
-         * @param string|resource|null $content The raw body data
-         * @throws BadRequestException When the URI is invalid
-         * @static
-         */
-        public static function create($uri, $method = 'GET', $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::create($uri, $method, $parameters, $cookies, $files, $server, $content);
-        }
-
-        /**
-         * Sets a callable able to create a Request instance.
-         * 
-         * This is mainly useful when you need to override the Request class
-         * to keep BC with an existing system. It should not be used for any
-         * other purpose.
-         *
-         * @static
-         */
-        public static function setFactory($callable)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::setFactory($callable);
-        }
-
-        /**
-         * Overrides the PHP global variables according to this request instance.
-         * 
-         * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
-         * $_FILES is never overridden, see rfc1867
-         *
-         * @static
-         */
-        public static function overrideGlobals()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->overrideGlobals();
-        }
-
-        /**
-         * Sets a list of trusted proxies.
-         * 
-         * You should only list the reverse proxies that you manage directly.
-         *
-         * @param array $proxies A list of trusted proxies, the string 'REMOTE_ADDR' will be replaced with $_SERVER['REMOTE_ADDR'] and 'PRIVATE_SUBNETS' by IpUtils::PRIVATE_SUBNETS
-         * @param int-mask-of<Request::HEADER_*> $trustedHeaderSet A bit field to set which headers to trust from your proxies
-         * @static
-         */
-        public static function setTrustedProxies($proxies, $trustedHeaderSet)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::setTrustedProxies($proxies, $trustedHeaderSet);
-        }
-
-        /**
-         * Gets the list of trusted proxies.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getTrustedProxies()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::getTrustedProxies();
-        }
-
-        /**
-         * Gets the set of trusted headers from trusted proxies.
-         *
-         * @return int A bit field of Request::HEADER_* that defines which headers are trusted from your proxies
-         * @static
-         */
-        public static function getTrustedHeaderSet()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::getTrustedHeaderSet();
-        }
-
-        /**
-         * Sets a list of trusted host patterns.
-         * 
-         * You should only list the hosts you manage using regexs.
-         *
-         * @param array $hostPatterns A list of trusted host patterns
-         * @static
-         */
-        public static function setTrustedHosts($hostPatterns)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::setTrustedHosts($hostPatterns);
-        }
-
-        /**
-         * Gets the list of trusted host patterns.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getTrustedHosts()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::getTrustedHosts();
-        }
-
-        /**
-         * Normalizes a query string.
-         * 
-         * It builds a normalized query string, where keys/value pairs are alphabetized,
-         * have consistent escaping and unneeded delimiters are removed.
-         *
-         * @static
-         */
-        public static function normalizeQueryString($qs)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::normalizeQueryString($qs);
-        }
-
-        /**
-         * Enables support for the _method request parameter to determine the intended HTTP method.
-         * 
-         * Be warned that enabling this feature might lead to CSRF issues in your code.
-         * Check that you are using CSRF tokens when required.
-         * If the HTTP method parameter override is enabled, an html-form with method "POST" can be altered
-         * and used to send a "PUT" or "DELETE" request via the _method request parameter.
-         * If these methods are not protected against CSRF, this presents a possible vulnerability.
-         * 
-         * The HTTP method can only be overridden when the real HTTP method is POST.
-         *
-         * @static
-         */
-        public static function enableHttpMethodParameterOverride()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::enableHttpMethodParameterOverride();
-        }
-
-        /**
-         * Checks whether support for the _method request parameter is enabled.
-         *
-         * @static
-         */
-        public static function getHttpMethodParameterOverride()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::getHttpMethodParameterOverride();
-        }
-
-        /**
-         * Whether the request contains a Session which was started in one of the
-         * previous requests.
-         *
-         * @static
-         */
-        public static function hasPreviousSession()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->hasPreviousSession();
-        }
-
-        /**
-         * @static
-         */
-        public static function setSession($session)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setSession($session);
-        }
-
-        /**
-         * @internal
-         * @param callable():  SessionInterface $factory
-         * @static
-         */
-        public static function setSessionFactory($factory)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setSessionFactory($factory);
-        }
-
-        /**
-         * Returns the client IP addresses.
-         * 
-         * In the returned array the most trusted IP address is first, and the
-         * least trusted one last. The "real" client IP address is the last one,
-         * but this is also the least trusted one. Trusted proxies are stripped.
-         * 
-         * Use this method carefully; you should use getClientIp() instead.
-         *
-         * @see getClientIp()
-         * @static
-         */
-        public static function getClientIps()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getClientIps();
-        }
-
-        /**
-         * Returns the client IP address.
-         * 
-         * This method can read the client IP address from the "X-Forwarded-For" header
-         * when trusted proxies were set via "setTrustedProxies()". The "X-Forwarded-For"
-         * header value is a comma+space separated list of IP addresses, the left-most
-         * being the original client, and each successive proxy that passed the request
-         * adding the IP address where it received the request from.
-         * 
-         * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
-         * argument of the Request::setTrustedProxies() method instead.
-         *
-         * @see getClientIps()
-         * @see https://wikipedia.org/wiki/X-Forwarded-For
-         * @static
-         */
-        public static function getClientIp()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getClientIp();
-        }
-
-        /**
-         * Returns current script name.
-         *
-         * @static
-         */
-        public static function getScriptName()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getScriptName();
-        }
-
-        /**
-         * Returns the path being requested relative to the executed script.
-         * 
-         * The path info always starts with a /.
-         * 
-         * Suppose this request is instantiated from /mysite on localhost:
-         * 
-         *  * http://localhost/mysite              returns an empty string
-         *  * http://localhost/mysite/about        returns '/about'
-         *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
-         *  * http://localhost/mysite/about?var=1  returns '/about'
-         *
-         * @return string The raw path (i.e. not urldecoded)
-         * @static
-         */
-        public static function getPathInfo()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getPathInfo();
-        }
-
-        /**
-         * Returns the root path from which this request is executed.
-         * 
-         * Suppose that an index.php file instantiates this request object:
-         * 
-         *  * http://localhost/index.php         returns an empty string
-         *  * http://localhost/index.php/page    returns an empty string
-         *  * http://localhost/web/index.php     returns '/web'
-         *  * http://localhost/we%20b/index.php  returns '/we%20b'
-         *
-         * @return string The raw path (i.e. not urldecoded)
-         * @static
-         */
-        public static function getBasePath()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getBasePath();
-        }
-
-        /**
-         * Returns the root URL from which this request is executed.
-         * 
-         * The base URL never ends with a /.
-         * 
-         * This is similar to getBasePath(), except that it also includes the
-         * script filename (e.g. index.php) if one exists.
-         *
-         * @return string The raw URL (i.e. not urldecoded)
-         * @static
-         */
-        public static function getBaseUrl()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getBaseUrl();
-        }
-
-        /**
-         * Gets the request's scheme.
-         *
-         * @static
-         */
-        public static function getScheme()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getScheme();
-        }
-
-        /**
-         * Returns the port on which the request is made.
-         * 
-         * This method can read the client port from the "X-Forwarded-Port" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Port" header must contain the client port.
-         *
-         * @return int|string|null Can be a string if fetched from the server bag
-         * @static
-         */
-        public static function getPort()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getPort();
-        }
-
-        /**
-         * Returns the user.
-         *
-         * @static
-         */
-        public static function getUser()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getUser();
-        }
-
-        /**
-         * Returns the password.
-         *
-         * @static
-         */
-        public static function getPassword()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getPassword();
-        }
-
-        /**
-         * Gets the user info.
-         *
-         * @return string|null A user name if any and, optionally, scheme-specific information about how to gain authorization to access the server
-         * @static
-         */
-        public static function getUserInfo()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getUserInfo();
-        }
-
-        /**
-         * Returns the HTTP host being requested.
-         * 
-         * The port name will be appended to the host if it's non-standard.
-         *
-         * @static
-         */
-        public static function getHttpHost()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getHttpHost();
-        }
-
-        /**
-         * Returns the requested URI (path and query string).
-         *
-         * @return string The raw URI (i.e. not URI decoded)
-         * @static
-         */
-        public static function getRequestUri()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getRequestUri();
-        }
-
-        /**
-         * Gets the scheme and HTTP host.
-         * 
-         * If the URL was called with basic authentication, the user
-         * and the password are not added to the generated string.
-         *
-         * @static
-         */
-        public static function getSchemeAndHttpHost()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getSchemeAndHttpHost();
-        }
-
-        /**
-         * Generates a normalized URI (URL) for the Request.
-         *
-         * @see getQueryString()
-         * @static
-         */
-        public static function getUri()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getUri();
-        }
-
-        /**
-         * Generates a normalized URI for the given path.
-         *
-         * @param string $path A path to use instead of the current one
-         * @static
-         */
-        public static function getUriForPath($path)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getUriForPath($path);
-        }
-
-        /**
-         * Returns the path as relative reference from the current Request path.
-         * 
-         * Only the URIs path component (no schema, host etc.) is relevant and must be given.
-         * Both paths must be absolute and not contain relative parts.
-         * Relative URLs from one resource to another are useful when generating self-contained downloadable document archives.
-         * Furthermore, they can be used to reduce the link size in documents.
-         * 
-         * Example target paths, given a base path of "/a/b/c/d":
-         * - "/a/b/c/d"     -> ""
-         * - "/a/b/c/"      -> "./"
-         * - "/a/b/"        -> "../"
-         * - "/a/b/c/other" -> "other"
-         * - "/a/x/y"       -> "../../x/y"
-         *
-         * @static
-         */
-        public static function getRelativeUriForPath($path)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getRelativeUriForPath($path);
-        }
-
-        /**
-         * Generates the normalized query string for the Request.
-         * 
-         * It builds a normalized query string, where keys/value pairs are alphabetized
-         * and have consistent escaping.
-         *
-         * @static
-         */
-        public static function getQueryString()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getQueryString();
-        }
-
-        /**
-         * Checks whether the request is secure or not.
-         * 
-         * This method can read the client protocol from the "X-Forwarded-Proto" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
-         *
-         * @static
-         */
-        public static function isSecure()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isSecure();
-        }
-
-        /**
-         * Returns the host name.
-         * 
-         * This method can read the client host name from the "X-Forwarded-Host" header
-         * when trusted proxies were set via "setTrustedProxies()".
-         * 
-         * The "X-Forwarded-Host" header must contain the client host name.
-         *
-         * @throws SuspiciousOperationException when the host name is invalid or not trusted
-         * @static
-         */
-        public static function getHost()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getHost();
-        }
-
-        /**
-         * Sets the request method.
-         *
-         * @static
-         */
-        public static function setMethod($method)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setMethod($method);
-        }
-
-        /**
-         * Gets the request "intended" method.
-         * 
-         * If the X-HTTP-Method-Override header is set, and if the method is a POST,
-         * then it is used to determine the "real" intended HTTP method.
-         * 
-         * The _method request parameter can also be used to determine the HTTP method,
-         * but only if enableHttpMethodParameterOverride() has been called.
-         * 
-         * The method is always an uppercased string.
-         *
-         * @see getRealMethod()
-         * @static
-         */
-        public static function getMethod()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getMethod();
-        }
-
-        /**
-         * Gets the "real" request method.
-         *
-         * @see getMethod()
-         * @static
-         */
-        public static function getRealMethod()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getRealMethod();
-        }
-
-        /**
-         * Gets the mime type associated with the format.
-         *
-         * @static
-         */
-        public static function getMimeType($format)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getMimeType($format);
-        }
-
-        /**
-         * Gets the mime types associated with the format.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getMimeTypes($format)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            return \Illuminate\Http\Request::getMimeTypes($format);
-        }
-
-        /**
-         * Gets the format associated with the mime type.
-         *
-         * @static
-         */
-        public static function getFormat($mimeType)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getFormat($mimeType);
-        }
-
-        /**
-         * Associates a format with mime types.
-         *
-         * @param string|string[] $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
-         * @static
-         */
-        public static function setFormat($format, $mimeTypes)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setFormat($format, $mimeTypes);
-        }
-
-        /**
-         * Gets the request format.
-         * 
-         * Here is the process to determine the format:
-         * 
-         *  * format defined by the user (with setRequestFormat())
-         *  * _format request attribute
-         *  * $default
-         *
-         * @see getPreferredFormat
-         * @static
-         */
-        public static function getRequestFormat($default = 'html')
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getRequestFormat($default);
-        }
-
-        /**
-         * Sets the request format.
-         *
-         * @static
-         */
-        public static function setRequestFormat($format)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setRequestFormat($format);
-        }
-
-        /**
-         * Gets the usual name of the format associated with the request's media type (provided in the Content-Type header).
-         *
-         * @see Request::$formats
-         * @static
-         */
-        public static function getContentTypeFormat()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getContentTypeFormat();
-        }
-
-        /**
-         * Sets the default locale.
-         *
-         * @static
-         */
-        public static function setDefaultLocale($locale)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setDefaultLocale($locale);
-        }
-
-        /**
-         * Get the default locale.
-         *
-         * @static
-         */
-        public static function getDefaultLocale()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getDefaultLocale();
-        }
-
-        /**
-         * Sets the locale.
-         *
-         * @static
-         */
-        public static function setLocale($locale)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->setLocale($locale);
-        }
-
-        /**
-         * Get the locale.
-         *
-         * @static
-         */
-        public static function getLocale()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getLocale();
-        }
-
-        /**
-         * Checks if the request method is of specified type.
-         *
-         * @param string $method Uppercase request method (GET, POST etc)
-         * @static
-         */
-        public static function isMethod($method)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isMethod($method);
-        }
-
-        /**
-         * Checks whether or not the method is safe.
-         *
-         * @see https://tools.ietf.org/html/rfc7231#section-4.2.1
-         * @static
-         */
-        public static function isMethodSafe()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isMethodSafe();
-        }
-
-        /**
-         * Checks whether or not the method is idempotent.
-         *
-         * @static
-         */
-        public static function isMethodIdempotent()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isMethodIdempotent();
-        }
-
-        /**
-         * Checks whether the method is cacheable or not.
-         *
-         * @see https://tools.ietf.org/html/rfc7231#section-4.2.3
-         * @static
-         */
-        public static function isMethodCacheable()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isMethodCacheable();
-        }
-
-        /**
-         * Returns the protocol version.
-         * 
-         * If the application is behind a proxy, the protocol version used in the
-         * requests between the client and the proxy and between the proxy and the
-         * server might be different. This returns the former (from the "Via" header)
-         * if the proxy is trusted (see "setTrustedProxies()"), otherwise it returns
-         * the latter (from the "SERVER_PROTOCOL" server parameter).
-         *
-         * @static
-         */
-        public static function getProtocolVersion()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getProtocolVersion();
-        }
-
-        /**
-         * Returns the request body content.
-         *
-         * @param bool $asResource If true, a resource will be returned
-         * @return string|resource
-         * @psalm-return ($asResource is true ? resource : string)
-         * @static
-         */
-        public static function getContent($asResource = false)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getContent($asResource);
-        }
-
-        /**
-         * Gets the decoded form or json request body.
-         *
-         * @throws JsonException When the body cannot be decoded to an array
-         * @static
-         */
-        public static function getPayload()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getPayload();
-        }
-
-        /**
-         * Gets the Etags.
-         *
-         * @static
-         */
-        public static function getETags()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getETags();
-        }
-
-        /**
-         * @static
-         */
-        public static function isNoCache()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isNoCache();
-        }
-
-        /**
-         * Gets the preferred format for the response by inspecting, in the following order:
-         *   * the request format set using setRequestFormat;
-         *   * the values of the Accept HTTP header.
-         * 
-         * Note that if you use this method, you should send the "Vary: Accept" header
-         * in the response to prevent any issues with intermediary HTTP caches.
-         *
-         * @static
-         */
-        public static function getPreferredFormat($default = 'html')
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getPreferredFormat($default);
-        }
-
-        /**
-         * Returns the preferred language.
-         *
-         * @param string[] $locales An array of ordered available locales
-         * @static
-         */
-        public static function getPreferredLanguage($locales = null)
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getPreferredLanguage($locales);
-        }
-
-        /**
-         * Gets a list of languages acceptable by the client browser ordered in the user browser preferences.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getLanguages()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getLanguages();
-        }
-
-        /**
-         * Gets a list of charsets acceptable by the client browser in preferable order.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getCharsets()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getCharsets();
-        }
-
-        /**
-         * Gets a list of encodings acceptable by the client browser in preferable order.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getEncodings()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getEncodings();
-        }
-
-        /**
-         * Gets a list of content types acceptable by the client browser in preferable order.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getAcceptableContentTypes()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getAcceptableContentTypes();
-        }
-
-        /**
-         * Returns true if the request is an XMLHttpRequest.
-         * 
-         * It works if your JavaScript library sets an X-Requested-With HTTP header.
-         * It is known to work with common JavaScript frameworks:
-         *
-         * @see https://wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
-         * @static
-         */
-        public static function isXmlHttpRequest()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isXmlHttpRequest();
-        }
-
-        /**
-         * Checks whether the client browser prefers safe content or not according to RFC8674.
-         *
-         * @see https://tools.ietf.org/html/rfc8674
-         * @static
-         */
-        public static function preferSafeContent()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->preferSafeContent();
-        }
-
-        /**
-         * Indicates whether this request originated from a trusted proxy.
-         * 
-         * This can be useful to determine whether or not to trust the
-         * contents of a proxy-specific header.
-         *
-         * @static
-         */
-        public static function isFromTrustedProxy()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->isFromTrustedProxy();
-        }
-
-        /**
          * Filter the given array of rules into an array of rules that are included in precognitive headers.
          *
          * @param array $rules
@@ -15610,6 +14902,18 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Determine if the current request is asking for Markdown.
+         *
+         * @return bool
+         * @static
+         */
+        public static function wantsMarkdown()
+        {
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->wantsMarkdown();
+        }
+
+        /**
          * Determines whether the current requests accepts a given content type.
          *
          * @param string|array $contentTypes
@@ -15657,6 +14961,18 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Http\Request $instance */
             return $instance->acceptsJson();
+        }
+
+        /**
+         * Determines whether a request accepts Markdown.
+         *
+         * @return bool
+         * @static
+         */
+        public static function acceptsMarkdown()
+        {
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->acceptsMarkdown();
         }
 
         /**
@@ -15857,13 +15173,14 @@ namespace Illuminate\Support\Facades {
          * Retrieve input from the request as a Fluent object instance.
          *
          * @param array|string|null $key
+         * @param array $default
          * @return \Illuminate\Support\Fluent
          * @static
          */
-        public static function fluent($key = null)
+        public static function fluent($key = null, $default = [])
         {
             /** @var \Illuminate\Http\Request $instance */
-            return $instance->fluent($key);
+            return $instance->fluent($key, $default);
         }
 
         /**
@@ -16152,7 +15469,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Retrieve data as a boolean value.
-         * 
+         *
          * Returns true when value is "1", "true", "on", and "yes". Otherwise, returns false.
          *
          * @param string|null $key
@@ -16195,6 +15512,22 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Retrieve data clamped between min and max values.
+         *
+         * @param string $key
+         * @param int|float $min
+         * @param int|float $max
+         * @param int|float $default
+         * @return float|int
+         * @static
+         */
+        public static function clamp($key, $min, $max, $default = 0)
+        {
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->clamp($key, $min, $max, $default);
+        }
+
+        /**
          * Retrieve data from the instance as a Carbon instance.
          *
          * @param string $key
@@ -16211,13 +15544,28 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Retrieve data from the instance as a CarbonInterval instance.
+         *
+         * @param string $key
+         * @param \Carbon\Unit|string|null $unit
+         * @return \Carbon\CarbonInterval|null
+         * @static
+         */
+        public static function interval($key, $unit = null)
+        {
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->interval($key, $unit);
+        }
+
+        /**
          * Retrieve data from the instance as an enum.
          *
          * @template TEnum of \BackedEnum
+         * @template TDefault of TEnum|null
          * @param string $key
          * @param class-string<TEnum> $enumClass
-         * @param TEnum|null $default
-         * @return TEnum|null
+         * @param TDefault $default
+         * @return TEnum|TDefault
          * @static
          */
         public static function enum($key, $enumClass, $default = null)
@@ -16376,6 +15724,1013 @@ namespace Illuminate\Support\Facades {
         public static function flushMacros()
         {
             \Illuminate\Http\Request::flushMacros();
+        }
+
+        /**
+         * Sets the parameters for this request.
+         *
+         * This method also re-initializes all properties.
+         *
+         * @param array $query The GET parameters
+         * @param array $request The POST parameters
+         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
+         * @param array $cookies The COOKIE parameters
+         * @param array $files The FILES parameters
+         * @param array $server The SERVER parameters
+         * @param string|resource|null $content The raw body data
+         * @static
+         */
+        public static function initialize($query = [], $request = [], $attributes = [], $cookies = [], $files = [], $server = [], $content = null)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
+        }
+
+        /**
+         * Creates a new request with values from PHP's super globals.
+         *
+         * @static
+         */
+        public static function createFromGlobals()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::createFromGlobals();
+        }
+
+        /**
+         * Creates a Request based on a given URI and configuration.
+         *
+         * The information contained in the URI always take precedence
+         * over the other information (server and parameters).
+         *
+         * @param string $uri The URI
+         * @param string $method The HTTP method
+         * @param array $parameters The query (GET) or request (POST) parameters
+         * @param array $cookies The request cookies ($_COOKIE)
+         * @param array $files The request files ($_FILES)
+         * @param array $server The server parameters ($_SERVER)
+         * @param string|resource|null $content The raw body data
+         * @throws BadRequestException When the URI is invalid
+         * @static
+         */
+        public static function create($uri, $method = 'GET', $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::create($uri, $method, $parameters, $cookies, $files, $server, $content);
+        }
+
+        /**
+         * Sets a callable able to create a Request instance.
+         *
+         * This is mainly useful when you need to override the Request class
+         * to keep BC with an existing system. It should not be used for any
+         * other purpose.
+         *
+         * @static
+         */
+        public static function setFactory($callable)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::setFactory($callable);
+        }
+
+        /**
+         * Overrides the PHP global variables according to this request instance.
+         *
+         * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
+         * $_FILES is never overridden, see rfc1867
+         *
+         * @static
+         */
+        public static function overrideGlobals()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->overrideGlobals();
+        }
+
+        /**
+         * Sets a list of trusted proxies.
+         *
+         * You should only list the reverse proxies that you manage directly.
+         *
+         * @param array $proxies A list of trusted proxies, the string 'REMOTE_ADDR' will be replaced with $_SERVER['REMOTE_ADDR'] and 'PRIVATE_SUBNETS' by IpUtils::PRIVATE_SUBNETS
+         * @param int-mask-of<Request::HEADER_*> $trustedHeaderSet A bit field to set which headers to trust from your proxies
+         * @static
+         */
+        public static function setTrustedProxies($proxies, $trustedHeaderSet)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::setTrustedProxies($proxies, $trustedHeaderSet);
+        }
+
+        /**
+         * Gets the list of trusted proxies.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getTrustedProxies()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::getTrustedProxies();
+        }
+
+        /**
+         * Gets the set of trusted headers from trusted proxies.
+         *
+         * @return int A bit field of Request::HEADER_* that defines which headers are trusted from your proxies
+         * @static
+         */
+        public static function getTrustedHeaderSet()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::getTrustedHeaderSet();
+        }
+
+        /**
+         * Sets a list of trusted host patterns.
+         *
+         * You should only list the hosts you manage using regexs.
+         *
+         * @param array $hostPatterns A list of trusted host patterns
+         * @static
+         */
+        public static function setTrustedHosts($hostPatterns)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::setTrustedHosts($hostPatterns);
+        }
+
+        /**
+         * Gets the list of trusted host patterns.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getTrustedHosts()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::getTrustedHosts();
+        }
+
+        /**
+         * Normalizes a query string.
+         *
+         * It builds a normalized query string, where keys/value pairs are alphabetized,
+         * have consistent escaping and unneeded delimiters are removed.
+         *
+         * @static
+         */
+        public static function normalizeQueryString($qs)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::normalizeQueryString($qs);
+        }
+
+        /**
+         * Enables support for the _method request parameter to determine the intended HTTP method.
+         *
+         * Be warned that enabling this feature might lead to CSRF issues in your code.
+         * Check that you are using CSRF tokens when required.
+         * If the HTTP method parameter override is enabled, an html-form with method "POST" can be altered
+         * and used to send a "PUT" or "DELETE" request via the _method request parameter.
+         * If these methods are not protected against CSRF, this presents a possible vulnerability.
+         *
+         * The HTTP method can only be overridden when the real HTTP method is POST.
+         *
+         * @static
+         */
+        public static function enableHttpMethodParameterOverride()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::enableHttpMethodParameterOverride();
+        }
+
+        /**
+         * Checks whether support for the _method request parameter is enabled.
+         *
+         * @static
+         */
+        public static function getHttpMethodParameterOverride()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::getHttpMethodParameterOverride();
+        }
+
+        /**
+         * Sets the list of HTTP methods that can be overridden.
+         *
+         * Set to null to allow all methods to be overridden (default). Set to an
+         * empty array to disallow overrides entirely. Otherwise, provide the list
+         * of uppercased method names that are allowed.
+         *
+         * @param \Symfony\Component\HttpFoundation\uppercase-string[]|null $methods
+         * @static
+         */
+        public static function setAllowedHttpMethodOverride($methods)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::setAllowedHttpMethodOverride($methods);
+        }
+
+        /**
+         * Gets the list of HTTP methods that can be overridden.
+         *
+         * @return \Symfony\Component\HttpFoundation\uppercase-string[]|null
+         * @static
+         */
+        public static function getAllowedHttpMethodOverride()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::getAllowedHttpMethodOverride();
+        }
+
+        /**
+         * Whether the request contains a Session which was started in one of the
+         * previous requests.
+         *
+         * @static
+         */
+        public static function hasPreviousSession()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->hasPreviousSession();
+        }
+
+        /**
+         * @static
+         */
+        public static function setSession($session)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setSession($session);
+        }
+
+        /**
+         * @internal
+         * @param callable():  SessionInterface $factory
+         * @static
+         */
+        public static function setSessionFactory($factory)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setSessionFactory($factory);
+        }
+
+        /**
+         * Returns the client IP addresses.
+         *
+         * In the returned array the most trusted IP address is first, and the
+         * least trusted one last. The "real" client IP address is the last one,
+         * but this is also the least trusted one. Trusted proxies are stripped.
+         *
+         * Use this method carefully; you should use getClientIp() instead.
+         *
+         * @see getClientIp()
+         * @static
+         */
+        public static function getClientIps()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getClientIps();
+        }
+
+        /**
+         * Returns the client IP address.
+         *
+         * This method can read the client IP address from the "X-Forwarded-For" header
+         * when trusted proxies were set via "setTrustedProxies()". The "X-Forwarded-For"
+         * header value is a comma+space separated list of IP addresses, the left-most
+         * being the original client, and each successive proxy that passed the request
+         * adding the IP address where it received the request from.
+         *
+         * @see getClientIps()
+         * @see https://wikipedia.org/wiki/X-Forwarded-For
+         * @static
+         */
+        public static function getClientIp()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getClientIp();
+        }
+
+        /**
+         * Returns current script name.
+         *
+         * @static
+         */
+        public static function getScriptName()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getScriptName();
+        }
+
+        /**
+         * Returns the path being requested relative to the executed script.
+         *
+         * The path info always starts with a /.
+         *
+         * Suppose this request is instantiated from /mysite on localhost:
+         *
+         *  * http://localhost/mysite              returns '/'
+         *  * http://localhost/mysite/about        returns '/about'
+         *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
+         *  * http://localhost/mysite/about?var=1  returns '/about'
+         *
+         * @return string The raw path (i.e. not urldecoded)
+         * @static
+         */
+        public static function getPathInfo()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getPathInfo();
+        }
+
+        /**
+         * Returns the root path from which this request is executed.
+         *
+         * Suppose that an index.php file instantiates this request object:
+         *
+         *  * http://localhost/index.php         returns an empty string
+         *  * http://localhost/index.php/page    returns an empty string
+         *  * http://localhost/web/index.php     returns '/web'
+         *  * http://localhost/we%20b/index.php  returns '/we%20b'
+         *
+         * @return string The raw path (i.e. not urldecoded)
+         * @static
+         */
+        public static function getBasePath()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getBasePath();
+        }
+
+        /**
+         * Returns the root URL from which this request is executed.
+         *
+         * The base URL never ends with a /.
+         *
+         * This is similar to getBasePath(), except that it also includes the
+         * script filename (e.g. index.php) if one exists.
+         *
+         * @return string The raw URL (i.e. not urldecoded)
+         * @static
+         */
+        public static function getBaseUrl()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getBaseUrl();
+        }
+
+        /**
+         * Gets the request's scheme.
+         *
+         * @static
+         */
+        public static function getScheme()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getScheme();
+        }
+
+        /**
+         * Returns the port on which the request is made.
+         *
+         * This method can read the client port from the "X-Forwarded-Port" header
+         * when trusted proxies were set via "setTrustedProxies()".
+         *
+         * The "X-Forwarded-Port" header must contain the client port.
+         *
+         * @return int|string|null Can be a string if fetched from the server bag
+         * @static
+         */
+        public static function getPort()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getPort();
+        }
+
+        /**
+         * Returns the user.
+         *
+         * @static
+         */
+        public static function getUser()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getUser();
+        }
+
+        /**
+         * Returns the password.
+         *
+         * @static
+         */
+        public static function getPassword()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getPassword();
+        }
+
+        /**
+         * Gets the user info.
+         *
+         * @return string|null A user name if any and, optionally, scheme-specific information about how to gain authorization to access the server
+         * @static
+         */
+        public static function getUserInfo()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getUserInfo();
+        }
+
+        /**
+         * Returns the HTTP host being requested.
+         *
+         * The port name will be appended to the host if it's non-standard.
+         *
+         * @static
+         */
+        public static function getHttpHost()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getHttpHost();
+        }
+
+        /**
+         * Returns the requested URI (path and query string).
+         *
+         * @return string The raw URI (i.e. not URI decoded)
+         * @static
+         */
+        public static function getRequestUri()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getRequestUri();
+        }
+
+        /**
+         * Gets the scheme and HTTP host.
+         *
+         * If the URL was called with basic authentication, the user
+         * and the password are not added to the generated string.
+         *
+         * @static
+         */
+        public static function getSchemeAndHttpHost()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getSchemeAndHttpHost();
+        }
+
+        /**
+         * Generates a normalized URI (URL) for the Request.
+         *
+         * @see getQueryString()
+         * @static
+         */
+        public static function getUri()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getUri();
+        }
+
+        /**
+         * Generates a normalized URI for the given path.
+         *
+         * @param string $path A path to use instead of the current one
+         * @static
+         */
+        public static function getUriForPath($path)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getUriForPath($path);
+        }
+
+        /**
+         * Returns the path as relative reference from the current Request path.
+         *
+         * Only the URIs path component (no schema, host etc.) is relevant and must be given.
+         * Both paths must be absolute and not contain relative parts.
+         * Relative URLs from one resource to another are useful when generating self-contained downloadable document archives.
+         * Furthermore, they can be used to reduce the link size in documents.
+         *
+         * Example target paths, given a base path of "/a/b/c/d":
+         * - "/a/b/c/d"     -> ""
+         * - "/a/b/c/"      -> "./"
+         * - "/a/b/"        -> "../"
+         * - "/a/b/c/other" -> "other"
+         * - "/a/x/y"       -> "../../x/y"
+         *
+         * @static
+         */
+        public static function getRelativeUriForPath($path)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getRelativeUriForPath($path);
+        }
+
+        /**
+         * Generates the normalized query string for the Request.
+         *
+         * It builds a normalized query string, where keys/value pairs are alphabetized
+         * and have consistent escaping.
+         *
+         * @static
+         */
+        public static function getQueryString()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getQueryString();
+        }
+
+        /**
+         * Checks whether the request is secure or not.
+         *
+         * This method can read the client protocol from the "X-Forwarded-Proto" header
+         * when trusted proxies were set via "setTrustedProxies()".
+         *
+         * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
+         *
+         * @static
+         */
+        public static function isSecure()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isSecure();
+        }
+
+        /**
+         * Returns the host name.
+         *
+         * This method can read the client host name from the "X-Forwarded-Host" header
+         * when trusted proxies were set via "setTrustedProxies()".
+         *
+         * The "X-Forwarded-Host" header must contain the client host name.
+         *
+         * @throws SuspiciousOperationException when the host name is invalid or not trusted
+         * @static
+         */
+        public static function getHost()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getHost();
+        }
+
+        /**
+         * Sets the request method.
+         *
+         * @static
+         */
+        public static function setMethod($method)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setMethod($method);
+        }
+
+        /**
+         * Gets the request "intended" method.
+         *
+         * If the X-HTTP-Method-Override header is set, and if the method is a POST,
+         * then it is used to determine the "real" intended HTTP method.
+         *
+         * The _method request parameter can also be used to determine the HTTP method,
+         * but only if enableHttpMethodParameterOverride() has been called.
+         *
+         * The method is always an uppercased string.
+         *
+         * @see getRealMethod()
+         * @static
+         */
+        public static function getMethod()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getMethod();
+        }
+
+        /**
+         * Gets the "real" request method.
+         *
+         * @see getMethod()
+         * @static
+         */
+        public static function getRealMethod()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getRealMethod();
+        }
+
+        /**
+         * Gets the mime type associated with the format.
+         *
+         * @static
+         */
+        public static function getMimeType($format)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getMimeType($format);
+        }
+
+        /**
+         * Gets the mime types associated with the format.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getMimeTypes($format)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            return \Illuminate\Http\Request::getMimeTypes($format);
+        }
+
+        /**
+         * Gets the format associated with the mime type.
+         *
+         * Resolution order:
+         *   1) Exact match on the full MIME type (e.g. "application/json").
+         *   2) Match on the canonical MIME type (i.e. before the first ";" parameter).
+         *   3) If the type is "application/*+suffix", use the structured syntax suffix
+         *      mapping (e.g. "application/foo+json" → "json"), when available.
+         *   4) If $subtypeFallback is true and no match was found:
+         *      - return the MIME subtype (without "x-" prefix), provided it does not
+         *        contain a "+" (e.g. "application/x-yaml" → "yaml", "text/csv" → "csv").
+         *
+         * @param string|null $mimeType The mime type to check
+         * @param bool $subtypeFallback Whether to fall back to the subtype if no exact match is found
+         * @static
+         */
+        public static function getFormat($mimeType)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getFormat($mimeType);
+        }
+
+        /**
+         * Associates a format with mime types.
+         *
+         * @param string $format The format to set
+         * @param string|string[] $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
+         * @static
+         */
+        public static function setFormat($format, $mimeTypes)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setFormat($format, $mimeTypes);
+        }
+
+        /**
+         * Gets the request format.
+         *
+         * Here is the process to determine the format:
+         *
+         *  * format defined by the user (with setRequestFormat())
+         *  * _format request attribute
+         *  * $default
+         *
+         * @see getPreferredFormat
+         * @static
+         */
+        public static function getRequestFormat($default = 'html')
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getRequestFormat($default);
+        }
+
+        /**
+         * Sets the request format.
+         *
+         * @static
+         */
+        public static function setRequestFormat($format)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setRequestFormat($format);
+        }
+
+        /**
+         * Gets the usual name of the format associated with the request's media type (provided in the Content-Type header).
+         *
+         * @see Request::$formats
+         * @static
+         */
+        public static function getContentTypeFormat()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getContentTypeFormat();
+        }
+
+        /**
+         * Sets the default locale.
+         *
+         * @static
+         */
+        public static function setDefaultLocale($locale)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setDefaultLocale($locale);
+        }
+
+        /**
+         * Get the default locale.
+         *
+         * @static
+         */
+        public static function getDefaultLocale()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getDefaultLocale();
+        }
+
+        /**
+         * Sets the locale.
+         *
+         * @static
+         */
+        public static function setLocale($locale)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->setLocale($locale);
+        }
+
+        /**
+         * Get the locale.
+         *
+         * @static
+         */
+        public static function getLocale()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getLocale();
+        }
+
+        /**
+         * Checks if the request method is of specified type.
+         *
+         * @param string $method Uppercase request method (GET, POST etc)
+         * @static
+         */
+        public static function isMethod($method)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isMethod($method);
+        }
+
+        /**
+         * Checks whether or not the method is safe.
+         *
+         * @see https://tools.ietf.org/html/rfc7231#section-4.2.1
+         * @static
+         */
+        public static function isMethodSafe()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isMethodSafe();
+        }
+
+        /**
+         * Checks whether or not the method is idempotent.
+         *
+         * @static
+         */
+        public static function isMethodIdempotent()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isMethodIdempotent();
+        }
+
+        /**
+         * Checks whether the method is cacheable or not.
+         *
+         * @see https://tools.ietf.org/html/rfc7231#section-4.2.3
+         * @static
+         */
+        public static function isMethodCacheable()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isMethodCacheable();
+        }
+
+        /**
+         * Returns the protocol version.
+         *
+         * If the application is behind a proxy, the protocol version used in the
+         * requests between the client and the proxy and between the proxy and the
+         * server might be different. This returns the former (from the "Via" header)
+         * if the proxy is trusted (see "setTrustedProxies()"), otherwise it returns
+         * the latter (from the "SERVER_PROTOCOL" server parameter).
+         *
+         * @static
+         */
+        public static function getProtocolVersion()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getProtocolVersion();
+        }
+
+        /**
+         * Returns the request body content.
+         *
+         * @param bool $asResource If true, a resource will be returned
+         * @return string|resource
+         * @psalm-return ($asResource is true ? resource : string)
+         * @static
+         */
+        public static function getContent($asResource = false)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getContent($asResource);
+        }
+
+        /**
+         * Gets the decoded form or json request body.
+         *
+         * @throws JsonException When the body cannot be decoded to an array
+         * @static
+         */
+        public static function getPayload()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getPayload();
+        }
+
+        /**
+         * Gets the Etags.
+         *
+         * @static
+         */
+        public static function getETags()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getETags();
+        }
+
+        /**
+         * @static
+         */
+        public static function isNoCache()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isNoCache();
+        }
+
+        /**
+         * Gets the preferred format for the response by inspecting, in the following order:
+         *   * the request format set using setRequestFormat;
+         *   * the values of the Accept HTTP header.
+         *
+         * Note that if you use this method, you should send the "Vary: Accept" header
+         * in the response to prevent any issues with intermediary HTTP caches.
+         *
+         * @static
+         */
+        public static function getPreferredFormat($default = 'html')
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getPreferredFormat($default);
+        }
+
+        /**
+         * Returns the preferred language.
+         *
+         * @param string[] $locales An array of ordered available locales
+         * @static
+         */
+        public static function getPreferredLanguage($locales = null)
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getPreferredLanguage($locales);
+        }
+
+        /**
+         * Gets a list of languages acceptable by the client browser ordered in the user browser preferences.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getLanguages()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getLanguages();
+        }
+
+        /**
+         * Gets a list of charsets acceptable by the client browser in preferable order.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getCharsets()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getCharsets();
+        }
+
+        /**
+         * Gets a list of encodings acceptable by the client browser in preferable order.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getEncodings()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getEncodings();
+        }
+
+        /**
+         * Returns true if the request is an XMLHttpRequest.
+         *
+         * It works if your JavaScript library sets an X-Requested-With HTTP header.
+         * It is known to work with common JavaScript frameworks:
+         *
+         * @see https://wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
+         * @static
+         */
+        public static function isXmlHttpRequest()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isXmlHttpRequest();
+        }
+
+        /**
+         * Checks whether the client browser prefers safe content or not according to RFC8674.
+         *
+         * @see https://tools.ietf.org/html/rfc8674
+         * @static
+         */
+        public static function preferSafeContent()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->preferSafeContent();
+        }
+
+        /**
+         * Indicates whether this request originated from a trusted proxy.
+         *
+         * This can be useful to determine whether or not to trust the
+         * contents of a proxy-specific header.
+         *
+         * @static
+         */
+        public static function isFromTrustedProxy()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request 
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->isFromTrustedProxy();
         }
 
         /**
@@ -17361,7 +17716,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Add a middleware to the beginning of a middleware group.
-         * 
+         *
          * If the middleware is already in the group, it will not be added again.
          *
          * @param string $group
@@ -17377,7 +17732,7 @@ namespace Illuminate\Support\Facades {
 
         /**
          * Add a middleware to the end of a middleware group.
-         * 
+         *
          * If the middleware is already in the group, it will not be added again.
          *
          * @param string $group
@@ -17900,6 +18255,7 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes monthlyOn(int $dayOfMonth = 1, string $time = '0:0')
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes twiceMonthly(int $first = 1, int $second = 16, string $time = '0:0')
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes lastDayOfMonth(string $time = '0:0')
+     * @method static \Illuminate\Console\Scheduling\PendingEventAttributes daysOfMonth(array|int ...$days)
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes quarterly()
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes quarterlyOn(int $dayOfQuarter = 1, string $time = '0:0')
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes yearly()
@@ -17969,7 +18325,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Create new schedule group.
          *
-         * @param \Illuminate\Console\Scheduling\Event $event
+         * @param \Closure $events
          * @return void
          * @throws \RuntimeException
          * @static
@@ -18239,7 +18595,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the default string length for migrations.
          *
-         * @param int $length
+         * @param non-negative-int $length
          * @return void
          * @static
          */
@@ -18428,6 +18784,40 @@ namespace Illuminate\Support\Facades {
             //Method inherited from \Illuminate\Database\Schema\Builder 
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
             $instance->whenTableDoesntHaveColumn($table, $column, $callback);
+        }
+
+        /**
+         * Execute a table builder callback if the given table has a given index.
+         *
+         * @param string $table
+         * @param string|array $index
+         * @param \Closure $callback
+         * @param string|null $type
+         * @return void
+         * @static
+         */
+        public static function whenTableHasIndex($table, $index, $callback, $type = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            $instance->whenTableHasIndex($table, $index, $callback, $type);
+        }
+
+        /**
+         * Execute a table builder callback if the given table doesn't have a given index.
+         *
+         * @param string $table
+         * @param string|array $index
+         * @param \Closure $callback
+         * @param string|null $type
+         * @return void
+         * @static
+         */
+        public static function whenTableDoesntHaveIndex($table, $index, $callback, $type = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            $instance->whenTableDoesntHaveIndex($table, $index, $callback, $type);
         }
 
         /**
@@ -18649,8 +19039,9 @@ namespace Illuminate\Support\Facades {
         /**
          * Disable foreign key constraints during the execution of a callback.
          *
-         * @param \Closure $callback
-         * @return mixed
+         * @template TReturn
+         * @param (\Closure(): TReturn) $callback
+         * @return TReturn
          * @static
          */
         public static function withoutForeignKeyConstraints($callback)
@@ -18658,6 +19049,35 @@ namespace Illuminate\Support\Facades {
             //Method inherited from \Illuminate\Database\Schema\Builder 
             /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
             return $instance->withoutForeignKeyConstraints($callback);
+        }
+
+        /**
+         * Create the vector extension on the schema if it does not exist.
+         *
+         * @param string|null $schema
+         * @return void
+         * @static
+         */
+        public static function ensureVectorExtensionExists($schema = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            $instance->ensureVectorExtensionExists($schema);
+        }
+
+        /**
+         * Create a new extension on the schema if it does not exist.
+         *
+         * @param string $name
+         * @param string|null $schema
+         * @return void
+         * @static
+         */
+        public static function ensureExtensionExists($name, $schema = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+            $instance->ensureExtensionExists($name, $schema);
         }
 
         /**
@@ -18678,7 +19098,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $reference
          * @param string|bool|null $withDefaultSchema
-         * @return array
+         * @return array{string|null, string}
          * @static
          */
         public static function parseSchemaAndTable($reference, $withDefaultSchema = null)
@@ -19020,7 +19440,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Checks if a key exists.
          *
-         * @param string|array $key
+         * @param \UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19033,7 +19453,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if the given key is missing from the session data.
          *
-         * @param string|array $key
+         * @param \UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19046,7 +19466,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if a key is present and not null.
          *
-         * @param string|array $key
+         * @param \UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19059,7 +19479,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if any of the given keys are present and not null.
          *
-         * @param string|array $key
+         * @param \UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19072,7 +19492,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get an item from the session.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -19086,7 +19506,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the value of a given key and then forget it.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -19140,7 +19560,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Put a key / value pair or array of key / value pairs in the session.
          *
-         * @param string|array $key
+         * @param \UnitEnum|string|array $key
          * @param mixed $value
          * @return void
          * @static
@@ -19154,7 +19574,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get an item from the session, or store the default value.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param \Closure $callback
          * @return mixed
          * @static
@@ -19168,7 +19588,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Push a value onto a session array.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -19182,7 +19602,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Increment the value of an item in the session.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param int $amount
          * @return mixed
          * @static
@@ -19196,7 +19616,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Decrement the value of an item in the session.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param int $amount
          * @return int
          * @static
@@ -19210,7 +19630,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Flash a key / value pair to the session.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -19224,7 +19644,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Flash a key / value pair to the session for immediate use.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -19288,7 +19708,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Remove an item from the session, returning its value.
          *
-         * @param string $key
+         * @param \UnitEnum|string $key
          * @return mixed
          * @static
          */
@@ -19301,7 +19721,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Remove one or many items from the session.
          *
-         * @param string|array $keys
+         * @param \UnitEnum|string|array $keys
          * @return void
          * @static
          */
@@ -19533,6 +19953,31 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Session\Store $instance */
             $instance->setPreviousUrl($url);
+        }
+
+        /**
+         * Get the previous route name from the session.
+         *
+         * @return string|null
+         * @static
+         */
+        public static function previousRoute()
+        {
+            /** @var \Illuminate\Session\Store $instance */
+            return $instance->previousRoute();
+        }
+
+        /**
+         * Set the "previous" route name in the session.
+         *
+         * @param string|null $route
+         * @return void
+         * @static
+         */
+        public static function setPreviousRoute($route)
+        {
+            /** @var \Illuminate\Session\Store $instance */
+            $instance->setPreviousRoute($route);
         }
 
         /**
@@ -19769,6 +20214,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $config
          * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function createScopedDriver($config)
@@ -19881,6 +20327,18 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Determine if temporary upload URLs can be generated.
+         *
+         * @return bool
+         * @static
+         */
+        public static function providesTemporaryUploadUrls()
+        {
+            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            return $instance->providesTemporaryUploadUrls();
+        }
+
+        /**
          * Get a temporary URL for the file at the given path.
          *
          * @param string $path
@@ -19893,6 +20351,21 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
             return $instance->temporaryUrl($path, $expiration, $options);
+        }
+
+        /**
+         * Get a temporary upload URL for the file at the given path.
+         *
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return array
+         * @static
+         */
+        public static function temporaryUploadUrl($path, $expiration, $options = [])
+        {
+            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            return $instance->temporaryUploadUrl($path, $expiration, $options);
         }
 
         /**
@@ -19920,6 +20393,40 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
             return $instance->shouldServeSignedUrls($serve, $urlGeneratorResolver);
+        }
+
+        /**
+         * Apply the callback if the given "value" is (or resolves to) truthy.
+         *
+         * @template TWhenParameter
+         * @template TWhenReturnType
+         * @param (\Closure($this): TWhenParameter)|TWhenParameter|null $value
+         * @param (callable($this, TWhenParameter): TWhenReturnType)|null $callback
+         * @param (callable($this, TWhenParameter): TWhenReturnType)|null $default
+         * @return $this|TWhenReturnType
+         * @static
+         */
+        public static function when($value = null, $callback = null, $default = null)
+        {
+            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            return $instance->when($value, $callback, $default);
+        }
+
+        /**
+         * Apply the callback if the given "value" is (or resolves to) falsy.
+         *
+         * @template TUnlessParameter
+         * @template TUnlessReturnType
+         * @param (\Closure($this): TUnlessParameter)|TUnlessParameter|null $value
+         * @param (callable($this, TUnlessParameter): TUnlessReturnType)|null $callback
+         * @param (callable($this, TUnlessParameter): TUnlessReturnType)|null $default
+         * @return $this|TUnlessReturnType
+         * @static
+         */
+        public static function unless($value = null, $callback = null, $default = null)
+        {
+            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            return $instance->unless($value, $callback, $default);
         }
 
         /**
@@ -20116,6 +20623,7 @@ namespace Illuminate\Support\Facades {
          * @param array $headers
          * @param string|null $disposition
          * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         * @throws UnableToRetrieveMetadata
          * @static
          */
         public static function response($path, $name = null, $headers = [], $disposition = 'inline')
@@ -20133,6 +20641,7 @@ namespace Illuminate\Support\Facades {
          * @param string|null $name
          * @param array $headers
          * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         * @throws UnableToRetrieveMetadata
          * @static
          */
         public static function serve($request, $path, $name = null, $headers = [])
@@ -20149,6 +20658,7 @@ namespace Illuminate\Support\Facades {
          * @param string|null $name
          * @param array $headers
          * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         * @throws UnableToRetrieveMetadata
          * @static
          */
         public static function download($path, $name = null, $headers = [])
@@ -20347,6 +20857,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $path
          * @return string|false
+         * @throws UnableToRetrieveMetadata
          * @static
          */
         public static function mimeType($path)
@@ -20413,23 +20924,6 @@ namespace Illuminate\Support\Facades {
             //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
             /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
             return $instance->url($path);
-        }
-
-        /**
-         * Get a temporary upload URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return array
-         * @throws \RuntimeException
-         * @static
-         */
-        public static function temporaryUploadUrl($path, $expiration, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->temporaryUploadUrl($path, $expiration, $options);
         }
 
         /**
@@ -20586,37 +21080,17 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Apply the callback if the given "value" is (or resolves to) truthy.
+         * Define a custom temporary upload URL builder callback.
          *
-         * @template TWhenParameter
-         * @template TWhenReturnType
-         * @param (\Closure($this): TWhenParameter)|TWhenParameter|null $value
-         * @param (callable($this, TWhenParameter): TWhenReturnType)|null $callback
-         * @param (callable($this, TWhenParameter): TWhenReturnType)|null $default
-         * @return $this|TWhenReturnType
+         * @param \Closure $callback
+         * @return void
          * @static
          */
-        public static function when($value = null, $callback = null, $default = null)
+        public static function buildTemporaryUploadUrlsUsing($callback)
         {
+            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
             /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->when($value, $callback, $default);
-        }
-
-        /**
-         * Apply the callback if the given "value" is (or resolves to) falsy.
-         *
-         * @template TUnlessParameter
-         * @template TUnlessReturnType
-         * @param (\Closure($this): TUnlessParameter)|TUnlessParameter|null $value
-         * @param (callable($this, TUnlessParameter): TUnlessReturnType)|null $callback
-         * @param (callable($this, TUnlessParameter): TUnlessReturnType)|null $default
-         * @return $this|TUnlessReturnType
-         * @static
-         */
-        public static function unless($value = null, $callback = null, $default = null)
-        {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->unless($value, $callback, $default);
+            $instance->buildTemporaryUploadUrlsUsing($callback);
         }
 
         /**
@@ -22525,6 +22999,17 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Determine if the stack has any content in it.
+         *
+         * @static
+         */
+        public static function isStackEmpty($section)
+        {
+            /** @var \Illuminate\View\Factory $instance */
+            return $instance->isStackEmpty($section);
+        }
+
+        /**
          * Flush all of the stacks.
          *
          * @return void
@@ -22954,10 +23439,10 @@ namespace Barryvdh\Debugbar\Facades {
      * @method static void warning(mixed $message)
      * @see \Barryvdh\Debugbar\LaravelDebugbar
      */
-    class Debugbar extends \DebugBar\DebugBar {
+    class Debugbar {
         /**
          * Returns the HTTP driver
-         * 
+         *
          * If no http driver where defined, a PhpHttpDriver is automatically created
          *
          * @return \DebugBar\HttpDriverInterface
@@ -23231,7 +23716,7 @@ namespace Barryvdh\Debugbar\Facades {
 
         /**
          * Adds a message to the MessagesCollector
-         * 
+         *
          * A message can be anything from an object to a string
          *
          * @param mixed $message
@@ -23378,7 +23863,7 @@ namespace Barryvdh\Debugbar\Facades {
 
         /**
          * Returns collected data
-         * 
+         *
          * Will collect the data if none have been collected yet
          *
          * @return array
@@ -23533,6 +24018,161 @@ namespace Barryvdh\Debugbar\Facades {
             }
     }
 
+namespace Laravel\Mcp\Facades {
+    /**
+     * @see Registrar
+     */
+    class Mcp {
+        /**
+         * @param class-string<Server> $serverClass
+         * @static
+         */
+        public static function web($route, $serverClass)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->web($route, $serverClass);
+        }
+
+        /**
+         * @param class-string<Server> $serverClass
+         * @static
+         */
+        public static function local($handle, $serverClass)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->local($handle, $serverClass);
+        }
+
+        /**
+         * @param \Closure():  Client  $factory
+         * @static
+         */
+        public static function registerClient($name, $factory)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->registerClient($name, $factory);
+        }
+
+        /**
+         * @static
+         */
+        public static function client($name)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->client($name);
+        }
+
+        /**
+         * @param \Closure(string, TokenSet):  mixed|array{0: class-string, 1: string}  $handler
+         * @param array<int, string>|string $middleware
+         * @static
+         */
+        public static function oAuthRoutesFor($client, $handler, $middleware = 'web', $connectUri = null, $callbackUri = null)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->oAuthRoutesFor($client, $handler, $middleware, $connectUri, $callbackUri);
+        }
+
+        /**
+         * @static
+         */
+        public static function getLocalServer($handle)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->getLocalServer($handle);
+        }
+
+        /**
+         * @static
+         */
+        public static function getWebServer($route)
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->getWebServer($route);
+        }
+
+        /**
+         * @return array<string, callable|Route>
+         * @static
+         */
+        public static function servers()
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->servers();
+        }
+
+        /**
+         * @static
+         */
+        public static function oauthRoutes($oauthPrefix = 'oauth')
+        {
+            /** @var \Laravel\Mcp\Server\Registrar $instance */
+            return $instance->oauthRoutes($oauthPrefix);
+        }
+
+        /**
+         * @return array<string, string>
+         * @static
+         */
+        public static function ensureMcpScope()
+        {
+            return \Laravel\Mcp\Server\Registrar::ensureMcpScope();
+        }
+
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @param-closure-this static  $macro
+         * @return void
+         * @static
+         */
+        public static function macro($name, $macro)
+        {
+            \Laravel\Mcp\Server\Registrar::macro($name, $macro);
+        }
+
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void
+         * @throws \ReflectionException
+         * @static
+         */
+        public static function mixin($mixin, $replace = true)
+        {
+            \Laravel\Mcp\Server\Registrar::mixin($mixin, $replace);
+        }
+
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool
+         * @static
+         */
+        public static function hasMacro($name)
+        {
+            return \Laravel\Mcp\Server\Registrar::hasMacro($name);
+        }
+
+        /**
+         * Flush the existing macros.
+         *
+         * @return void
+         * @static
+         */
+        public static function flushMacros()
+        {
+            \Laravel\Mcp\Server\Registrar::flushMacros();
+        }
+
+            }
+    }
+
 namespace Livewire {
     /**
      * @see \Livewire\LivewireManager
@@ -23640,10 +24280,10 @@ namespace Livewire {
         /**
          * @static
          */
-        public static function snapshot($component)
+        public static function snapshot($component, $context = null)
         {
             /** @var \Livewire\LivewireManager $instance */
-            return $instance->snapshot($component);
+            return $instance->snapshot($component, $context);
         }
 
         /**
@@ -24541,7 +25181,7 @@ namespace  {
          * Get the first record matching the attributes. If the record is not found, create it.
          *
          * @param array $attributes
-         * @param array $values
+         * @param (\Closure(): array)|array $values
          * @return TModel
          * @static
          */
@@ -24555,7 +25195,7 @@ namespace  {
          * Attempt to create the record. If a unique constraint violation occurs, attempt to find the matching record.
          *
          * @param array $attributes
-         * @param array $values
+         * @param (\Closure(): array)|array $values
          * @return TModel
          * @static
          */
@@ -24781,7 +25421,7 @@ namespace  {
          * @param string $pageName
          * @param int|null $page
          * @param \Closure|int|null $total
-         * @return \Illuminate\Pagination\LengthAwarePaginator
+         * @return \Illuminate\Pagination\LengthAwarePaginator<int, TModel>
          * @throws \InvalidArgumentException
          * @static
          */
@@ -24798,7 +25438,7 @@ namespace  {
          * @param array|string $columns
          * @param string $pageName
          * @param int|null $page
-         * @return \Illuminate\Contracts\Pagination\Paginator
+         * @return \Illuminate\Pagination\Paginator<int, TModel>
          * @static
          */
         public static function simplePaginate($perPage = null, $columns = [], $pageName = 'page', $page = null)
@@ -24814,7 +25454,7 @@ namespace  {
          * @param array|string $columns
          * @param string $cursorName
          * @param \Illuminate\Pagination\Cursor|string|null $cursor
-         * @return \Illuminate\Contracts\Pagination\CursorPaginator
+         * @return \Illuminate\Pagination\CursorPaginator<int, TModel>
          * @static
          */
         public static function cursorPaginate($perPage = null, $columns = [], $cursorName = 'cursor', $cursor = null)
@@ -24969,7 +25609,7 @@ namespace  {
 
         /**
          * Specify attributes that should be added to any new models created by this builder.
-         * 
+         *
          * The given key / value pairs will also be added as where conditions to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|array|string $attributes
@@ -25474,7 +26114,7 @@ namespace  {
          * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
          * @param \Illuminate\Database\Eloquent\Relations\Relation<TRelatedModel, *, *>|string $relation
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @param string $boolean
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>): mixed)|null $callback
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -25492,7 +26132,7 @@ namespace  {
          *
          * @param \Illuminate\Database\Eloquent\Relations\Relation<*, *, *>|string $relation
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25538,7 +26178,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\Relation<TRelatedModel, *, *>|string $relation
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25550,13 +26190,13 @@ namespace  {
 
         /**
          * Add a relationship count / exists condition to the query with where clauses.
-         * 
+         *
          * Also load the relationship with the same condition.
          *
          * @param string $relation
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Database\Eloquent\Relations\Relation<*, *, *>): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25573,7 +26213,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\Relation<TRelatedModel, *, *>|string $relation
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25620,7 +26260,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\MorphTo<TRelatedModel, *>|string $relation
          * @param string|array<int, string> $types
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @param string $boolean
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>, string): mixed)|null $callback
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -25638,7 +26278,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
          * @param string|array<int, string> $types
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25687,7 +26327,7 @@ namespace  {
          * @param string|array<int, string> $types
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>, string): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25705,7 +26345,7 @@ namespace  {
          * @param string|array<int, string> $types
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>, string): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -25909,6 +26549,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
          * @param \Illuminate\Database\Eloquent\Model|iterable<int, \Illuminate\Database\Eloquent\Model>|string|null $model
          * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function whereMorphedTo($relation, $model, $boolean = 'and')
@@ -25923,6 +26564,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
          * @param \Illuminate\Database\Eloquent\Model|iterable<int, \Illuminate\Database\Eloquent\Model>|string $model
          * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @throws \InvalidArgumentException
          * @static
          */
         public static function whereNotMorphedTo($relation, $model, $boolean = 'and')
@@ -26160,6 +26802,20 @@ namespace  {
         }
 
         /**
+         * Add a select expression to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $expression
+         * @param string $as
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function selectExpression($expression, $as)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->selectExpression($expression, $as);
+        }
+
+        /**
          * Add a new "raw" select expression to the query.
          *
          * @param string $expression
@@ -26188,7 +26844,7 @@ namespace  {
         }
 
         /**
-         * Add a raw from clause to the query.
+         * Add a raw "from" clause to the query.
          *
          * @param string $expression
          * @param mixed $bindings
@@ -26212,6 +26868,21 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->addSelect($column);
+        }
+
+        /**
+         * Add a vector-similarity selection to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param string|null $as
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function selectVectorDistance($column, $vector, $as = null)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->selectVectorDistance($column, $vector, $as);
         }
 
         /**
@@ -26280,7 +26951,7 @@ namespace  {
         }
 
         /**
-         * Add a join clause to the query.
+         * Add a "join" clause to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $table
          * @param \Closure|\Illuminate\Contracts\Database\Query\Expression|string $first
@@ -26315,7 +26986,7 @@ namespace  {
         }
 
         /**
-         * Add a subquery join clause to the query.
+         * Add a "subquery join" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
          * @param string $as
@@ -26335,7 +27006,7 @@ namespace  {
         }
 
         /**
-         * Add a lateral join clause to the query.
+         * Add a "lateral join" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -26489,7 +27160,7 @@ namespace  {
         }
 
         /**
-         * Merge an array of where clauses and bindings.
+         * Merge an array of "where" clauses and bindings.
          *
          * @param array $wheres
          * @param array $bindings
@@ -26550,7 +27221,54 @@ namespace  {
         }
 
         /**
-         * Add a raw where clause to the query.
+         * Add a vector similarity clause to the query, filtering by minimum similarity and ordering by similarity.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param float $minSimilarity A value between 0.0 and 1.0, where 1.0 is identical.
+         * @param bool $order
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereVectorSimilarTo($column, $vector, $minSimilarity = 0.6, $order = true)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereVectorSimilarTo($column, $vector, $minSimilarity, $order);
+        }
+
+        /**
+         * Add a vector distance "where" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param float $maxDistance
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereVectorDistanceLessThan($column, $vector, $maxDistance, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereVectorDistanceLessThan($column, $vector, $maxDistance, $boolean);
+        }
+
+        /**
+         * Add a vector distance "or where" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param float $maxDistance
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orWhereVectorDistanceLessThan($column, $vector, $maxDistance)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orWhereVectorDistanceLessThan($column, $vector, $maxDistance);
+        }
+
+        /**
+         * Add a raw "where" clause to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $sql
          * @param mixed $bindings
@@ -26565,7 +27283,7 @@ namespace  {
         }
 
         /**
-         * Add a raw or where clause to the query.
+         * Add a raw "or where" clause to the query.
          *
          * @param string $sql
          * @param mixed $bindings
@@ -26639,6 +27357,35 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->orWhereNotLike($column, $value, $caseSensitive);
+        }
+
+        /**
+         * Add a "where null safe equals" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param mixed $value
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereNullSafeEquals($column, $value, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereNullSafeEquals($column, $value, $boolean);
+        }
+
+        /**
+         * Add an "or where null safe equals" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param mixed $value
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orWhereNullSafeEquals($column, $value)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orWhereNullSafeEquals($column, $value);
         }
 
         /**
@@ -26802,9 +27549,9 @@ namespace  {
         }
 
         /**
-         * Add a where between statement to the query.
+         * Add a "where between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
          * @param bool $not
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -26817,7 +27564,7 @@ namespace  {
         }
 
         /**
-         * Add a where between statement using columns to the query.
+         * Add a "where between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
@@ -26832,9 +27579,9 @@ namespace  {
         }
 
         /**
-         * Add an or where between statement to the query.
+         * Add an "or where between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26845,7 +27592,7 @@ namespace  {
         }
 
         /**
-         * Add an or where between statement using columns to the query.
+         * Add an "or where between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -26858,9 +27605,9 @@ namespace  {
         }
 
         /**
-         * Add a where not between statement to the query.
+         * Add a "where not between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
@@ -26872,7 +27619,7 @@ namespace  {
         }
 
         /**
-         * Add a where not between statement using columns to the query.
+         * Add a "where not between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
@@ -26886,9 +27633,9 @@ namespace  {
         }
 
         /**
-         * Add an or where not between statement to the query.
+         * Add an "or where not between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26899,7 +27646,7 @@ namespace  {
         }
 
         /**
-         * Add an or where not between statement using columns to the query.
+         * Add an "or where not between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -26912,7 +27659,7 @@ namespace  {
         }
 
         /**
-         * Add a where between columns statement using a value to the query.
+         * Add a "where between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -26928,7 +27675,7 @@ namespace  {
         }
 
         /**
-         * Add an or where between columns statement using a value to the query.
+         * Add an "or where between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -26942,7 +27689,7 @@ namespace  {
         }
 
         /**
-         * Add a where not between columns statement using a value to the query.
+         * Add a "where not between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -26957,7 +27704,7 @@ namespace  {
         }
 
         /**
-         * Add an or where not between columns statement using a value to the query.
+         * Add an "or where not between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -27139,7 +27886,7 @@ namespace  {
         }
 
         /**
-         * Add a nested where statement to the query.
+         * Add a nested "where" statement to the query.
          *
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -27178,7 +27925,7 @@ namespace  {
         }
 
         /**
-         * Add an exists clause to the query.
+         * Add an "exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @param string $boolean
@@ -27193,7 +27940,7 @@ namespace  {
         }
 
         /**
-         * Add an or exists clause to the query.
+         * Add an "or where exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @param bool $not
@@ -27207,7 +27954,7 @@ namespace  {
         }
 
         /**
-         * Add a where not exists clause to the query.
+         * Add a "where not exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @param string $boolean
@@ -27221,7 +27968,7 @@ namespace  {
         }
 
         /**
-         * Add a where not exists clause to the query.
+         * Add an "or where not exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -27234,7 +27981,7 @@ namespace  {
         }
 
         /**
-         * Add an exists clause to the query.
+         * Add an "exists" clause to the query.
          *
          * @param string $boolean
          * @param bool $not
@@ -27513,7 +28260,7 @@ namespace  {
         }
 
         /**
-         * Add a "or where fulltext" clause to the query.
+         * Add an "or where fulltext" clause to the query.
          *
          * @param string|string[] $columns
          * @param string $value
@@ -27633,7 +28380,7 @@ namespace  {
         }
 
         /**
-         * Add a raw groupBy clause to the query.
+         * Add a raw "groupBy" clause to the query.
          *
          * @param string $sql
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -27677,7 +28424,7 @@ namespace  {
         }
 
         /**
-         * Add a nested having statement to the query.
+         * Add a nested "having" statement to the query.
          *
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -27759,7 +28506,7 @@ namespace  {
         }
 
         /**
-         * Add a "having between " clause to the query.
+         * Add a "having between" clause to the query.
          *
          * @param string $column
          * @param string $boolean
@@ -27774,7 +28521,50 @@ namespace  {
         }
 
         /**
-         * Add a raw having clause to the query.
+         * Add a "having not between" clause to the query.
+         *
+         * @param string $column
+         * @param iterable $values
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function havingNotBetween($column, $values, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->havingNotBetween($column, $values, $boolean);
+        }
+
+        /**
+         * Add an "or having between" clause to the query.
+         *
+         * @param string $column
+         * @param iterable $values
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orHavingBetween($column, $values)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orHavingBetween($column, $values);
+        }
+
+        /**
+         * Add an "or having not between" clause to the query.
+         *
+         * @param string $column
+         * @param iterable $values
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orHavingNotBetween($column, $values)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orHavingNotBetween($column, $values);
+        }
+
+        /**
+         * Add a raw "having" clause to the query.
          *
          * @param string $sql
          * @param string $boolean
@@ -27788,7 +28578,7 @@ namespace  {
         }
 
         /**
-         * Add a raw or having clause to the query.
+         * Add a raw "or having" clause to the query.
          *
          * @param string $sql
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -27829,6 +28619,20 @@ namespace  {
         }
 
         /**
+         * Add a vector-distance "order by" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float> $vector
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orderByVectorDistance($column, $vector)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orderByVectorDistance($column, $vector);
+        }
+
+        /**
          * Put the query's results in random order.
          *
          * @param string|int $seed
@@ -27839,6 +28643,20 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->inRandomOrder($seed);
+        }
+
+        /**
+         * Add an "order by" clause to order results by a given sequence of values.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Contracts\Support\Arrayable|array $values
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function inOrderOf($column, $values)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->inOrderOf($column, $values);
         }
 
         /**
@@ -27993,7 +28811,7 @@ namespace  {
         }
 
         /**
-         * Add a union statement to the query.
+         * Add a "union" statement to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $query
          * @param bool $all
@@ -28007,7 +28825,7 @@ namespace  {
         }
 
         /**
-         * Add a union all statement to the query.
+         * Add a "union all" statement to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $query
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -28054,6 +28872,20 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->sharedLock();
+        }
+
+        /**
+         * Set a query execution timeout in seconds.
+         *
+         * @param int|null $seconds
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @throws InvalidArgumentException
+         * @static
+         */
+        public static function timeout($seconds)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->timeout($seconds);
         }
 
         /**
@@ -28415,7 +29247,7 @@ namespace  {
         }
 
         /**
-         * Run a truncate statement on the table.
+         * Run a "truncate" statement on the table.
          *
          * @return void
          * @static
@@ -28994,6 +29826,7 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
     class Vite extends \Illuminate\Support\Facades\Vite {}
     class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+    class Mcp extends \Laravel\Mcp\Facades\Mcp {}
     class Livewire extends \Livewire\Livewire {}
 }
 

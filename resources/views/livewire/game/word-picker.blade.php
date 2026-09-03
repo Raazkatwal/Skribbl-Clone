@@ -3,14 +3,11 @@
     words: [],
     choose(word) {
         this.open = false;
-        $wire.call('selectWord', word);
+        $wire.dispatch('word-selected', { word: word });
     }
-}" x-init="$wire.on('show-word-picker', e => {
-    words = e.words;
-    open = true;
-});">
+}" x-on:show-word-picker.window="words = $event.detail.words; open = !$event.detail.current_word;">
     <!-- Overlay -->
-    <div x-show="open" x-transition.opacity class="absolute inset-0 grid place-items-center bg-black/60">
+    <div x-show="open" x-cloak x-transition.opacity class="absolute inset-0 z-20 grid place-items-center bg-black/60">
         <div class="w-96 rounded-lg bg-white p-6 shadow-xl">
             <h2 class="mb-4 text-center text-lg font-bold">Choose a word</h2>
 

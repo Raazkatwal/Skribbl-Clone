@@ -24,3 +24,12 @@ Homestead.yaml
 npm-debug.log
 Thumbs.db
 yarn-error.log
+/.agents
+/.codex
+/.cursor
+AGENTS.md
+boost.json
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+opencode.json

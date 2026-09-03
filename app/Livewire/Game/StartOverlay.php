@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Game;
 
-use Livewire\Component;
-use App\Models\Room;
 use App\Enums\RoomStatus;
+use App\Models\Room;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class StartOverlay extends Component
 {
@@ -13,7 +14,9 @@ class StartOverlay extends Component
     public bool $isHost = false;
 
     public int $maxPlayers;
+
     public int $rounds;
+
     public int $drawtime;
 
     public function mount(
@@ -33,11 +36,13 @@ class StartOverlay extends Component
 
     public function startGame()
     {
-        $this->dispatch('request-start-game', [
-            'max_players' => $this->maxPlayers,
-            'rounds' => $this->rounds,
-            'drawtime' => $this->drawtime,
-        ])->to(GameRoom::class);
+        $this->dispatch('request-start-game', max_players: $this->maxPlayers, rounds: $this->rounds, drawtime: $this->drawtime)->to(GameRoom::class);
+    }
+
+    #[On('game-started')]
+    public function onGameStarted(): void
+    {
+        $this->room->refresh();
     }
 
     public function render()

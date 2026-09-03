@@ -20,6 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .listen(".game.started", () => {
             Livewire.dispatch("game-started");
+        })
+        .listen(".chat.message", (e) => {
+            Livewire.dispatch("chat-message", {
+                playerName: e.playerName,
+                message: e.message,
+                isCorrect: e.isCorrect,
+                isSystem: e.isSystem,
+            });
+            if (e.isCorrect) {
+                Livewire.dispatch("score-updated");
+            }
         });
 });
 

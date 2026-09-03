@@ -2,9 +2,9 @@
     class="col-span-3 flex items-center justify-between rounded bg-gradient-to-r from-blue-500 to-purple-500 px-2 shadow-md">
     <div class="flex items-center gap-4" x-data="{ remaining: 0, interval: null }" x-init="$wire.on('countdown-start', e => {
         remaining = e.seconds;
-    
-        if (interval) clearInterval(interval); // stop any existing interval
-    
+
+        if (interval) clearInterval(interval);
+
         interval = setInterval(() => {
             if (remaining > 0) {
                 remaining--;
@@ -18,9 +18,9 @@
             background-position: 0 -3px;"
             x-text="remaining"></div>
 
-        <span class="font-bold">Round 1 of 8</span>
+        <span class="font-bold">Round {{ $room->current_round }} of {{ $room->rounds }}</span>
     </div>
-    <span class="font-semibold tracking-widest text-white uppercase">waiting</span>
+    <span class="font-semibold tracking-widest text-white uppercase">{{ $room->status->label() }}</span>
     <div class="flex gap-4">
         <div class="size-12 cursor-pointer bg-cover bg-no-repeat"
             style="background-image: url('{{ asset('images/settings.gif') }}')"></div>

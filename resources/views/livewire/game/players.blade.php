@@ -6,7 +6,7 @@
                 <span class="text-sm text-blue-600">
                     {{ $player->user->name }} {{ $player->user_id === auth()->id() ? '(You)' : '' }}
                 </span>
-                <span class="text-xs">0 Points</span>
+                <span class="text-xs">{{ $player->score }} Points</span>
             </div>
             <div class="size-12 bg-cover bg-no-repeat"
                 style="

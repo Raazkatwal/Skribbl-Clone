@@ -13,6 +13,7 @@ class Players extends Component
 
     #[On('player-joined')]
     #[On('player-left')]
+    #[On('score-updated')]
     public function refresh(): void {}
 
     public function render()
