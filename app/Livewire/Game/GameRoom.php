@@ -5,6 +5,7 @@ namespace App\Livewire\Game;
 use App\Enums\RoomStatus;
 use App\Events\GameStarted;
 use App\Events\PlayerLeft;
+use App\Events\WordSelected;
 use App\Models\Player;
 use App\Models\Room;
 use Illuminate\Contracts\View\View;
@@ -159,6 +160,8 @@ class GameRoom extends Component
             'current_word' => $word,
             'round_ends_at' => now()->addSeconds($this->room->round_time),
         ]);
+
+        broadcast(new WordSelected($this->room->code));
 
         $this->dispatch('countdown-start', seconds: $this->room->round_time);
     }

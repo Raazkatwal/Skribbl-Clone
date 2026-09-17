@@ -1,11 +1,4 @@
 <div class="flex h-full flex-col rounded bg-white">
-    {{-- Word hint --}}
-    @if ($this->wordHint)
-        <div class="border-b bg-gray-50 px-3 py-2 text-center">
-            <span class="font-mono text-lg tracking-widest text-gray-700">{{ $this->wordHint }}</span>
-        </div>
-    @endif
-
     {{-- Messages --}}
     <div class="flex-1 space-y-1 overflow-y-auto p-2">
         @foreach ($messages as $msg)

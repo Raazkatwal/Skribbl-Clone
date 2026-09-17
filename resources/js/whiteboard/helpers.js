@@ -2,6 +2,35 @@ export function rgbaToCss([r, g, b, a]) {
 	return `rgba(${r}, ${g}, ${b}, ${a / 255})`;
 }
 
+export function whenElement(id, callback) {
+	const attempt = () => {
+		const element = document.getElementById(id);
+
+		if (element) {
+			callback(element);
+
+			return true;
+		}
+
+		return false;
+	};
+
+	if (attempt()) return;
+
+	document.addEventListener("DOMContentLoaded", () => {
+		if (attempt()) return;
+
+		let tries = 0;
+		const interval = setInterval(() => {
+			tries++;
+
+			if (attempt() || tries >= 50) {
+				clearInterval(interval);
+			}
+		}, 100);
+	});
+}
+
 export function fillCanvas(color) {
 	ctx.fillStyle = color;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);

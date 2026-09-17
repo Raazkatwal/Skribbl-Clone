@@ -1,10 +1,22 @@
 import { floodFill, rgbaToCss } from "./helpers";
 
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
+const getCanvas = () => document.getElementById("board");
+
+const getCtx = () => {
+    const canvas = getCanvas();
+
+    return canvas ? canvas.getContext("2d") : null;
+};
+
 const userPaths = {};
 
-document.addEventListener("DOMContentLoaded", () => {
+let subscribed = false;
+
+function subscribeToChannel() {
+    if (subscribed || !window.Echo || !window.roomCode) return;
+
+    subscribed = true;
+
     window.Echo.channel(`room.${window.roomCode}`)
         .listen(".whiteboard.draw", (e) => {
             const data = e.data;
@@ -15,11 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
             Livewire.dispatch("player-joined");
         })
         .listen(".player.left", () => {
-            console.log("player left")
+            console.log("player left");
             Livewire.dispatch("player-left");
         })
         .listen(".game.started", () => {
             Livewire.dispatch("game-started");
+        })
+        .listen(".word.selected", () => {
+            Livewire.dispatch("word-picked");
         })
         .listen(".chat.message", (e) => {
             Livewire.dispatch("chat-message", {
@@ -32,9 +47,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 Livewire.dispatch("score-updated");
             }
         });
-});
+}
+
+subscribeToChannel();
+
+document.addEventListener("DOMContentLoaded", subscribeToChannel);
+
+let tries = 0;
+const interval = setInterval(() => {
+    if (subscribed || tries++ >= 50) {
+        clearInterval(interval);
+
+        return;
+    }
+
+    subscribeToChannel();
+}, 100);
 
 function drawRemoteStroke(data) {
+    const canvas = getCanvas();
+    const ctx = getCtx();
+
+    if (!canvas || !ctx) return;
+
     const { userId, type, x, y, color } = data;
     ctx.strokeStyle = rgbaToCss(color);
     ctx.lineWidth = 3;

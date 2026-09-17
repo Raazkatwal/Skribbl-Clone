@@ -62,6 +62,8 @@ class Chat extends Component
                 isCorrect: true,
                 isSystem: true,
             ));
+
+            $this->dispatch('word-revealed')->to(Header::class);
         } else {
             broadcast(new ChatMessage(
                 roomCode: $this->room->code,
@@ -100,17 +102,6 @@ class Chat extends Component
             'is_correct' => $isCorrect,
             'is_system' => $isSystem,
         ];
-    }
-
-    public function getWordHintProperty(): ?string
-    {
-        $word = $this->room->current_word;
-
-        if ($word === null || $this->isDrawer) {
-            return null;
-        }
-
-        return implode(' ', array_map(fn ($c) => $c === ' ' ? ' ' : '_', str_split($word)));
     }
 
     public function render()

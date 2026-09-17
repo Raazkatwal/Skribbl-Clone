@@ -3,7 +3,7 @@
         <div class="logo m-auto"></div>
 
         <div class="grid size-full grid-cols-[20%_60%_20%] grid-rows-[10%_90%] gap-1.5">
-            <livewire:game.header :room="$room" />
+            <livewire:game.header :room="$room" :is-drawer="$isDrawer" />
 
             <livewire:game.players :room="$room" />
 
@@ -19,11 +19,5 @@
         window.userId = @js(auth()->user()->id);
         window.roomCode = @js($room->code);
         window.canDraw = $wire.isDrawer;
-
-        window.addEventListener("pagehide", e => {
-            if (!e.persisted) {
-                $wire.call('removePlayer');
-            }
-        });
     </script>
 @endscript

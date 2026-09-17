@@ -10,7 +10,7 @@
         <div>
             <input
                 type="text"
-                wire:model.blur="username"
+                wire:model.live.blur="username"
                 placeholder="Enter your name"
                 class="w-full px-4 py-2 border text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
                 {{ $errors->has('username') ? 'border-red-500' : 'border-gray-300' }}"
@@ -23,7 +23,7 @@
         <div>
             <input
                 type="text"
-                wire:model.blur="room_code"
+                wire:model.live.blur="room_code"
                 placeholder="Enter room code"
                 class="w-full px-4 py-2 border border-gray-300 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
                 {{ $errors->has('room_code') ? 'border-red-500' : 'border-gray-300' }}"

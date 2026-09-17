@@ -20,7 +20,13 @@
 
         <span class="font-bold">Round {{ $room->current_round }} of {{ $room->rounds }}</span>
     </div>
-    <span class="font-semibold tracking-widest text-white uppercase">{{ $room->status->label() }}</span>
+    @if ($this->displayWord)
+        <span class="select-none text-xl font-bold text-white {{ $this->revealed ? 'tracking-widest' : 'tracking-[0.35em]' }}">
+            {{ $this->displayWord }}
+        </span>
+    @else
+        <span class="font-semibold tracking-widest text-white uppercase">{{ $room->status->label() }}</span>
+    @endif
     <div class="flex gap-4">
         <div class="size-12 cursor-pointer bg-cover bg-no-repeat"
             style="background-image: url('{{ asset('images/settings.gif') }}')"></div>
