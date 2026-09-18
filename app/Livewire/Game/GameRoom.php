@@ -128,6 +128,8 @@ class GameRoom extends Component
 
         $this->isDrawer = $player?->is_drawer ?? false;
 
+        $this->dispatch('drawing-state-changed', canDraw: $this->isDrawer);
+
         if (! $this->isDrawer) {
             return;
         }
@@ -145,6 +147,8 @@ class GameRoom extends Component
             ->first();
 
         $this->isDrawer = $player?->is_drawer ?? false;
+
+        $this->dispatch('drawing-state-changed', canDraw: $this->isDrawer);
     }
 
     #[On('word-selected')]
@@ -164,6 +168,7 @@ class GameRoom extends Component
         broadcast(new WordSelected($this->room->code));
 
         $this->dispatch('countdown-start', seconds: $this->room->round_time);
+        $this->dispatch('drawing-state-changed', canDraw: $this->isDrawer);
     }
 
     public function render(): View

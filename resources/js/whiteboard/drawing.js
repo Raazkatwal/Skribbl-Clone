@@ -3,6 +3,10 @@ import { floodFill, rgbaToCss, whenElement } from "./helpers";
 whenElement("board", (canvas) => {
     const ctx = canvas.getContext("2d");
 
+    Livewire.on("drawing-state-changed", ({ canDraw }) => {
+        window.canDraw = canDraw;
+    });
+
     let drawing = false;
 
     canvas.addEventListener("mousedown", (e) => {

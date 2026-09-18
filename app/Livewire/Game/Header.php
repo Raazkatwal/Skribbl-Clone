@@ -61,6 +61,13 @@ class Header extends Component
         $this->room->refresh();
     }
 
+    #[On('drawing-state-changed')]
+    public function handleDrawingStateChanged(bool $canDraw): void
+    {
+        $this->isDrawer = $canDraw;
+        $this->room->refresh();
+    }
+
     public function render(): View
     {
         return view('livewire.game.header');
